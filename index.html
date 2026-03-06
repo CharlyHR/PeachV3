@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peach Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            amber:  '#FFAA00',
+            orange: '#F5931E',
+            coral:  '#E8503A',
+            crimson:'#D93D1A',
+            blossom:'#D47A95',
+            cream:  '#FFF5EE',
+            dark:   '#1C1412',
+          },
+          fontFamily: {
+            display: ['"Bricolage Grotesque"', 'sans-serif'],
+            body:    ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* ── CSS variables & resets ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FFF5EE; color: #1C1412; overflow-x: hidden; }
+
+    /* ── Custom properties ── */
+    :root {
+      --amber:   #FFAA00;
+      --orange:  #F5931E;
+      --coral:   #E8503A;
+      --crimson: #D93D1A;
+      --blossom: #D47A95;
+      --cream:   #FFF5EE;
+      --dark:    #1C1412;
+    }
+
+    /* ── Noise texture overlay ── */
+    .noise::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Hero gradient ── */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(216,61,26,0.55) 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 80%, rgba(255,170,0,0.60) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(245,147,30,0.45) 0%, transparent 70%),
+        linear-gradient(135deg, #FFAA00 0%, #F5931E 35%, #E8503A 70%, #D93D1A 100%);
+    }
+
+    /* ── Services gradient ── */
+    .services-bg {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(255,170,0,0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(217,61,26,0.30) 0%, transparent 50%),
+        linear-gradient(140deg, #F5931E 0%, #E8503A 50%, #D93D1A 100%);
+    }
+
+    /* ── CTA gradient ── */
+    .cta-bg {
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255,170,0,0.40) 0%, transparent 55%),
+        linear-gradient(135deg, #F5931E 0%, #E8503A 60%, #D93D1A 100%);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes floatPeach {
+      0%, 100% { transform: translateY(0px) rotate(-1deg); }
+      50%       { transform: translateY(-18px) rotate(1deg); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .anim-fade-up     { animation: fadeUp  0.7s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .anim-fade-in     { animation: fadeIn  0.6s ease forwards; }
+    .anim-scale-in    { animation: scaleIn 0.8s cubic-bezier(0.34,1.4,0.64,1) forwards; }
+    .float-peach      { animation: floatPeach 6s ease-in-out infinite; }
+
+    .delay-100  { animation-delay: 0.10s; }
+    .delay-200  { animation-delay: 0.20s; }
+    .delay-300  { animation-delay: 0.30s; }
+    .delay-400  { animation-delay: 0.40s; }
+    .delay-500  { animation-delay: 0.50s; }
+    .delay-600  { animation-delay: 0.60s; }
+
+    /* ── Nav link hover ── */
+    .nav-link {
+      position: relative;
+      color: rgba(255,255,255,0.80);
+      font-size: 0.80rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: #FFAA00;
+      transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible {
+      outline: 2px solid rgba(255,170,0,0.7);
+      outline-offset: 4px;
+      border-radius: 3px;
+    }
+
+    /* ── CTA button ── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      background: #fff;
+      color: var(--coral);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      box-shadow:
+        0 4px 20px rgba(216,61,26,0.25),
+        0 1px 4px rgba(0,0,0,0.10);
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 0.2s ease,
+                  background 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 36px rgba(216,61,26,0.35), 0 2px 8px rgba(0,0,0,0.12);
+      background: #fff7f4;
+    }
+    .btn-primary:active { transform: translateY(0) scale(0.98); }
+    .btn-primary:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 30px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(255,255,255,0.55);
+      background: transparent;
+      color: #fff;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.25s, background 0.25s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn-outline:hover {
+      border-color: #fff;
+      background: rgba(255,255,255,0.10);
+      transform: translateY(-2px);
+    }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid rgba(255,255,255,0.7); outline-offset: 4px; }
+
+    /* ── Service card ── */
+    .service-card {
+      position: relative;
+      padding: 28px 24px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1),
+                  background 0.25s,
+                  box-shadow 0.25s;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      background: rgba(255,255,255,0.14);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.20);
+    }
+
+    /* ── Peach photo strip ── */
+    .peach-strip img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.3) contrast(1.05);
+      transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1), filter 0.3s ease;
+    }
+    .peach-strip img:hover {
+      transform: scale(1.04);
+      filter: saturate(1.5) contrast(1.1);
+    }
+
+    /* ── Social icon ── */
+    .social-icon {
+      width: 34px; height: 34px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.75);
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      text-decoration: none;
+    }
+    .social-icon:hover {
+      border-color: #FFAA00;
+      color: #FFAA00;
+      background: rgba(255,170,0,0.10);
+      transform: translateY(-3px);
+    }
+    .social-icon:active { transform: translateY(0); }
+    .social-icon:focus-visible { outline: 2px solid rgba(255,170,0,0.7); outline-offset: 3px; }
+
+    /* ── Dot nav ── */
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1C4BC; transition: background 0.2s, transform 0.2s; cursor: pointer; }
+    .dot.active { background: var(--coral); transform: scale(1.4); }
+    .dot:hover { background: var(--orange); }
+
+    /* ── Section divider ── */
+    .section-label {
+      display: inline-block;
+      font-size: 0.70rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--coral);
+      padding: 5px 14px;
+      border-radius: 50px;
+      background: rgba(232,80,58,0.10);
+      margin-bottom: 16px;
+    }
+
+    /* ── Peach play button ── */
+    .play-btn {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--coral);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 28px rgba(232,80,58,0.45);
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+    }
+    .play-btn:hover {
+      transform: scale(1.12);
+      box-shadow: 0 12px 36px rgba(232,80,58,0.55);
+    }
+    .play-btn:active { transform: scale(0.96); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- NAV                                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<header style="background:#1C1412; position:sticky; top:0; z-index:50; border-bottom:1px solid rgba(255,255,255,0.06);">
+  <nav style="max-width:1180px; margin:0 auto; padding:0 28px; height:62px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+
+    <!-- Logo wordmark -->
+    <a href="#" style="flex-shrink:0; display:flex; align-items:center; text-decoration:none; height:36px; gap:8px;" aria-label="Peach Studio — Inicio">
+      <img src="brand_assets/Logo_Peach-removebg.png" alt="" aria-hidden="true" style="height:32px; width:auto; display:block;" />
+      <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:1.3rem; color:#fff; letter-spacing:-0.04em; line-height:1;">peach</span>
+    </a>
+
+    <!-- Nav links (desktop) -->
+    <div style="display:flex; align-items:center; gap:28px; flex:1; justify-content:center;">
+      <a href="#" class="nav-link">Inicio</a>
+      <a href="#nosotros" class="nav-link">Nosotros</a>
+      <a href="#servicios" class="nav-link">Servicios</a>
+      <a href="#blog" class="nav-link">Blog</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+    </div>
+
+    <!-- Social icons -->
+    <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+      <a href="#" class="social-icon" aria-label="LinkedIn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="#" class="social-icon" aria-label="Instagram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+      <a href="#" class="social-icon" aria-label="YouTube">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- HERO                                                       -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="hero-bg noise" style="position:relative; min-height:90vh; display:flex; align-items:center; overflow:hidden; padding:60px 0 0;">
+
+  <!-- Decorative radial glow -->
+  <div style="position:absolute; inset:0; pointer-events:none; z-index:0;">
+    <div style="position:absolute; top:-80px; right:-80px; width:600px; height:600px; background:radial-gradient(circle, rgba(255,200,100,0.18) 0%, transparent 70%); border-radius:50%;"></div>
+    <div style="position:absolute; bottom:-100px; left:-100px; width:500px; height:500px; background:radial-gradient(circle, rgba(217,61,26,0.20) 0%, transparent 70%); border-radius:50%;"></div>
+  </div>
+
+  <div style="position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 28px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; min-height:82vh;">
+
+    <!-- Left: copy -->
+    <div style="padding-bottom:60px;">
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(2.2rem, 4vw, 3.2rem); font-weight:800; color:#fff; line-height:1.08; letter-spacing:-0.03em; margin-bottom:20px;">
+        Eso que pasa cuando la estrategia se mezcla con la identidad
+      </h1>
+      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; color:rgba(255,255,255,0.88); line-height:1.75; margin-bottom:12px; max-width:430px;">
+        No es magia. Es método. Es <strong style="color:#fff;">Peach Studio</strong>.
+      </p>
+      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.72); line-height:1.72; margin-bottom:34px; max-width:400px;">
+        Un estudio de comunicación que te ayuda a construir una marca que suene bien, se vea mejor y conecte de verdad.
+      </p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="#servicios" class="btn-primary">Ver servicios</a>
+        <a href="#nosotros" class="btn-outline">Conocenos</a>
+      </div>
+    </div>
+
+    <!-- Right: peach mascot -->
+    <div class="anim-scale-in delay-200" style="display:flex; justify-content:center; align-items:flex-end; position:relative; padding-top:20px;">
+      <div class="float-peach" style="position:relative; z-index:2;">
+        <img
+          src="brand_assets/Logo_Peach-removebg.png"
+          alt="Peach mascot con auriculares y anteojos de sol"
+          style="width:min(480px, 90%); height:auto; display:block; filter:drop-shadow(0 40px 60px rgba(0,0,0,0.30)) drop-shadow(0 10px 20px rgba(217,61,26,0.25));"
+        />
+      </div>
+      <!-- soft floor shadow -->
+      <div style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:60%; height:30px; background:radial-gradient(ellipse, rgba(0,0,0,0.25) 0%, transparent 70%); border-radius:50%;"></div>
+    </div>
+
+  </div>
+
+  <!-- bottom wave -->
+  <div style="position:absolute; bottom:0; left:0; right:0; line-height:0; z-index:3;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
+      <path d="M0,60 C360,0 1080,0 1440,60 L1440,60 L0,60 Z" fill="#FFF5EE"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- INTRO / ABOUT TEXT                                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section id="nosotros" style="background:#FFF5EE; padding:80px 28px 72px;">
+  <div style="max-width:760px; margin:0 auto; text-align:center;">
+    <span class="section-label">Quiénes somos</span>
+    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.15rem; color:#4A3728; line-height:1.80; margin-bottom:20px;">
+      En Peach Studio combinamos <strong style="color:var(--coral); font-weight:600;">estrategia de comunicación</strong> con <strong style="color:var(--coral); font-weight:600;">diseño de identidad</strong> para marcas que no quieren pasar desapercibidas.
+    </p>
+    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.05rem; color:#7A6058; line-height:1.80; margin-bottom:0;">
+      No marketing del montón. No identidad genérica. Trabajamos con vos para que tu marca tenga algo que decir — y que lo diga bien.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SPLIT: ABOUT / FEATURE                                     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section style="background:#fff; padding:0 0 80px;">
+  <div style="max-width:1180px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;">
+
+    <!-- Left: image -->
+    <div style="position:relative; border-radius:20px; overflow:hidden; box-shadow:0 24px 56px rgba(28,20,18,0.15), 0 6px 16px rgba(232,80,58,0.12);">
+      <img
+        src="brand_assets/Logo_Peach.jpg"
+        alt="Sesión de trabajo creativo en Peach Studio"
+        style="width:100%; height:440px; object-fit:cover; object-position:center 30%; display:block;"
+      />
+      <!-- color overlay -->
+      <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,170,0,0.18) 0%, rgba(232,80,58,0.22) 100%); mix-blend-mode:multiply;"></div>
+      <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(28,20,18,0.40) 0%, transparent 50%);"></div>
+
+      <!-- Play button overlay -->
+      <div style="position:absolute; bottom:24px; left:24px; display:flex; align-items:center; gap:12px;">
+        <button class="play-btn" aria-label="Ver video">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.9); font-weight:500;">Ver cómo trabajamos</span>
+      </div>
+    </div>
+
+    <!-- Right: text -->
+    <div>
+      <span class="section-label">Nuestro approach</span>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(1.9rem,3vw,2.7rem); font-weight:800; color:#1C1412; line-height:1.12; letter-spacing:-0.025em; margin-bottom:20px;">
+        Contenido con estrategia, identidad con criterio
+      </h2>
+      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; color:#6B5248; line-height:1.78; margin-bottom:24px;">
+        Cada marca que acompaña Peach Studio recibe un proceso con etapas claras: diagnóstico, definición de voz, diseño visual y producción de contenido. Todo conectado, nada improvisado.
+      </p>
+      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; color:#6B5248; line-height:1.78; margin-bottom:36px;">
+        La estrategia da el rumbo. La identidad, la personalidad. Y el contenido es el vehículo que te lleva a donde querés llegar.
+      </p>
+
+      <!-- dots nav -->
+      <div style="display:flex; gap:8px; align-items:center;">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SERVICES                                                   -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section id="servicios" class="services-bg noise" style="position:relative; padding:80px 28px 88px;">
+
+  <div style="position:relative; z-index:2; max-width:1180px; margin:0 auto;">
+    <div style="margin-bottom:52px;">
+      <div style="display:inline-block; margin-bottom:14px; padding:5px 14px; border-radius:50px; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.28);">
+        <span style="font-size:0.70rem; font-weight:600; color:#fff; letter-spacing:0.14em; text-transform:uppercase;">Lo que hacemos</span>
+      </div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(2rem,3.5vw,2.9rem); font-weight:800; color:#fff; line-height:1.08; letter-spacing:-0.025em;">
+        Nuestros Servicios
+      </h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+
+      <!-- Card 1 -->
+      <div class="service-card">
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Estrategia de Comunicación</h3>
+        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+          <li style="padding:3px 0;">Diagnóstico de marca</li>
+          <li style="padding:3px 0;">Definición de audiencias</li>
+          <li style="padding:3px 0;">Plan de comunicación</li>
+          <li style="padding:3px 0;">Mensajes clave</li>
+          <li style="padding:3px 0;">Canales y formatos</li>
+        </ul>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="service-card">
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Identidad Visual</h3>
+        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+          <li style="padding:3px 0;">Logo y variantes</li>
+          <li style="padding:3px 0;">Paleta y tipografía</li>
+          <li style="padding:3px 0;">Manual de marca</li>
+          <li style="padding:3px 0;">Aplicaciones digitales</li>
+          <li style="padding:3px 0;">Materiales impresos</li>
+        </ul>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="service-card">
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Producción de Contenido</h3>
+        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+          <li style="padding:3px 0;">Fotografía de marca</li>
+          <li style="padding:3px 0;">Video y reels</li>
+          <li style="padding:3px 0;">Copywriting</li>
+          <li style="padding:3px 0;">Diseño de posts</li>
+          <li style="padding:3px 0;">Newsletter</li>
+        </ul>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="service-card">
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Gestión de Redes</h3>
+        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+          <li style="padding:3px 0;">Pauta de contenidos</li>
+          <li style="padding:3px 0;">Community management</li>
+          <li style="padding:3px 0;">Respuestas y comentarios</li>
+          <li style="padding:3px 0;">Métricas y reportes</li>
+          <li style="padding:3px 0;">Campañas pagadas</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- top wave -->
+  <div style="position:absolute; top:0; left:0; right:0; line-height:0; transform:rotate(180deg);">
+    <svg viewBox="0 0 1440 50" preserveAspectRatio="none" style="width:100%; height:50px; display:block;"><path d="M0,50 C360,0 1080,0 1440,50 L1440,50 L0,50 Z" fill="#fff"/></svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PEACH PHOTO STRIP                                          -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="peach-strip" style="display:grid; grid-template-columns:repeat(5,1fr); overflow:hidden; height:200px;">
+  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 1" style="width:100%; height:200px; object-fit:cover; object-position:center;" />
+  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 2" style="width:100%; height:200px; object-fit:cover; object-position:30% center;" />
+  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 3" style="width:100%; height:200px; object-fit:cover; object-position:70% center;" />
+  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 4" style="width:100%; height:200px; object-fit:cover; object-position:80% center;" />
+  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 5" style="width:100%; height:200px; object-fit:cover; object-position:20% center;" />
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- CTA                                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section id="contacto" class="cta-bg noise" style="position:relative; padding:88px 28px 96px; text-align:center; overflow:hidden;">
+
+  <div style="position:absolute; inset:0; pointer-events:none;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; height:600px; background:radial-gradient(circle, rgba(255,200,80,0.15) 0%, transparent 65%); border-radius:50%;"></div>
+  </div>
+
+  <div style="position:relative; z-index:2; max-width:640px; margin:0 auto;">
+    <div style="display:inline-block; margin-bottom:20px; padding:5px 16px; border-radius:50px; background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.28);">
+      <span style="font-size:0.72rem; font-weight:600; color:#fff; letter-spacing:0.12em; text-transform:uppercase;">Trabajemos juntos</span>
+    </div>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:800; color:#fff; line-height:1.10; letter-spacing:-0.03em; margin-bottom:18px;">
+      ¿Querés algo distinto,<br/>pero con criterio?
+    </h2>
+    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.05rem; color:rgba(255,255,255,0.82); line-height:1.72; margin-bottom:36px;">
+      Contanos tu proyecto y encontremos juntos la mejor forma de comunicarlo.
+    </p>
+    <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+      <a href="mailto:hola@peachstudio.com" class="btn-primary">Escribinos</a>
+      <a href="#" class="btn-outline">Ver portfolio</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<footer style="background:#1C1412; padding:52px 28px 40px; border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px;">
+
+    <!-- Left: logo -->
+    <div>
+      <img src="brand_assets/Marca_Nombre_sin_fondo.png" alt="Peach Studio" style="height:26px; width:auto; display:block; object-fit:contain;" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend','<span style=\'font-family:Bricolage Grotesque,sans-serif;font-weight:800;font-size:1.4rem;color:#fff;letter-spacing:-0.03em;\'>peach</span>');" />
+      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.78rem; color:rgba(255,255,255,0.38); margin-top:10px; line-height:1.5;">
+        Estudio de comunicación creativa.<br/>Buenos Aires, Argentina.
+      </p>
+    </div>
+
+    <!-- Center: nav -->
+    <nav style="display:flex; gap:24px; align-items:center;">
+      <a href="#" class="nav-link">Inicio</a>
+      <a href="#nosotros" class="nav-link">Nosotros</a>
+      <a href="#servicios" class="nav-link">Servicios</a>
+      <a href="#blog" class="nav-link">Blog</a>
+    </nav>
+
+    <!-- Right: social -->
+    <div style="display:flex; gap:10px; justify-content:flex-end; align-items:center;">
+      <a href="#" class="social-icon" aria-label="LinkedIn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="#" class="social-icon" aria-label="Instagram">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+      <a href="#" class="social-icon" aria-label="YouTube">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- divider -->
+  <div style="max-width:1180px; margin:36px auto 0; border-top:1px solid rgba(255,255,255,0.07); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.28);">
+      &copy; 2026 Peach Studio. Todos los derechos reservados.
+    </p>
+    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.28);">
+      Hecho con criterio (y con mucho durazno).
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
