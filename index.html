@@ -4,54 +4,97 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peach Studio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FOUC fix: set dark class before CSS renders to prevent flash -->
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            amber:  '#FFAA00',
-            orange: '#F5931E',
-            coral:  '#E8503A',
-            crimson:'#D93D1A',
-            blossom:'#D47A95',
-            cream:  '#FFF5EE',
-            dark:   '#1C1412',
-          },
-          fontFamily: {
-            display: ['"Bricolage Grotesque"', 'sans-serif'],
-            body:    ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-        }
+    (function() {
+      var saved = localStorage.getItem('peach-theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
       }
-    }
+    })();
   </script>
   <style>
-    /* ── CSS variables & resets ── */
+    /* ── Local Montserrat @font-face — full set ── */
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Thin.ttf') format('truetype'); font-weight:100; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ThinItalic.ttf') format('truetype'); font-weight:100; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraLight.ttf') format('truetype'); font-weight:200; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraLightItalic.ttf') format('truetype'); font-weight:200; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Light.ttf') format('truetype'); font-weight:300; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-LightItalic.ttf') format('truetype'); font-weight:300; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Regular.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Italic.ttf') format('truetype'); font-weight:400; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Medium.ttf') format('truetype'); font-weight:500; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-MediumItalic.ttf') format('truetype'); font-weight:500; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-SemiBold.ttf') format('truetype'); font-weight:600; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-SemiBoldItalic.ttf') format('truetype'); font-weight:600; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Bold.ttf') format('truetype'); font-weight:700; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-BoldItalic.ttf') format('truetype'); font-weight:700; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraBold.ttf') format('truetype'); font-weight:800; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraBoldItalic.ttf') format('truetype'); font-weight:800; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Black.ttf') format('truetype'); font-weight:900; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-BlackItalic.ttf') format('truetype'); font-weight:900; font-style:italic; font-display:swap; }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FFF5EE; color: #1C1412; overflow-x: hidden; }
 
-    /* ── Custom properties ── */
+    /* ── CSS Variables (Light Mode) ── */
     :root {
-      --amber:   #FFAA00;
-      --orange:  #F5931E;
-      --coral:   #E8503A;
-      --crimson: #D93D1A;
-      --blossom: #D47A95;
-      --cream:   #FFF5EE;
-      --dark:    #1C1412;
+      --coral:          #EC6257;
+      --orange:         #FB8746;
+      --charcoal:       #545454;
+      --black:          #000000;
+      --bg-base:        #F1F1F1;
+      --bg-surface:     #FFFFFF;
+      --bg-elevated:    #FFFFFF;
+      --text-h:         #000000;
+      --text-body:      #545454;
+      --text-muted:     #888888;
+      --border-c:       rgba(0,0,0,0.08);
+      --nav-bg:         rgba(255,255,255,0.96);
+      --nav-shadow:     0 1px 0 rgba(0,0,0,0.08);
+      --card-bg:        #FFFFFF;
+      --card-border:    rgba(0,0,0,0.08);
+      --label-bg:       rgba(236,98,87,0.10);
+      --shadow-card:    0 24px 56px rgba(0,0,0,0.10), 0 4px 12px rgba(236,98,87,0.08);
     }
 
-    /* ── Noise texture overlay ── */
+    /* ── CSS Variables (Dark Mode) ── */
+    html.dark {
+      --coral:          #D94F44;
+      --orange:         #E07035;
+      --bg-base:        #0A0A0A;
+      --bg-surface:     #111111;
+      --bg-elevated:    #1A1A1A;
+      --text-h:         #EDEDED;
+      --text-body:      #C8C8C8;
+      --text-muted:     #5E5E5E;
+      --border-c:       rgba(255,255,255,0.07);
+      --nav-bg:         rgba(8,8,8,0.97);
+      --nav-shadow:     0 1px 0 rgba(255,255,255,0.05);
+      --card-bg:        rgba(255,255,255,0.04);
+      --card-border:    rgba(255,255,255,0.09);
+      --label-bg:       rgba(217,79,68,0.18);
+      --shadow-card:    0 24px 56px rgba(0,0,0,0.55), 0 4px 12px rgba(217,79,68,0.14);
+    }
+
+    /* Force Montserrat on ALL elements — overrides Tailwind CDN preflight injection */
+    html, body, * {
+      font-family: 'Montserrat', sans-serif !important;
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-body);
+      overflow-x: hidden;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+
+    /* ── Noise texture ── */
     .noise::after {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 1;
     }
@@ -59,30 +102,30 @@
     /* ── Hero gradient ── */
     .hero-bg {
       background:
-        radial-gradient(ellipse at 80% 20%, rgba(216,61,26,0.55) 0%, transparent 55%),
-        radial-gradient(ellipse at 10% 80%, rgba(255,170,0,0.60) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 50%, rgba(245,147,30,0.45) 0%, transparent 70%),
-        linear-gradient(135deg, #FFAA00 0%, #F5931E 35%, #E8503A 70%, #D93D1A 100%);
+        radial-gradient(ellipse at 82% 18%, rgba(251,135,70,0.60) 0%, transparent 52%),
+        radial-gradient(ellipse at 8%  80%, rgba(236,98,87,0.65)  0%, transparent 52%),
+        radial-gradient(ellipse at 50% 50%, rgba(251,135,70,0.40) 0%, transparent 68%),
+        linear-gradient(138deg, #FB8746 0%, #EC6257 52%, #d44d42 100%);
     }
 
     /* ── Services gradient ── */
     .services-bg {
       background:
-        radial-gradient(ellipse at 20% 50%, rgba(255,170,0,0.35) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 30%, rgba(217,61,26,0.30) 0%, transparent 50%),
-        linear-gradient(140deg, #F5931E 0%, #E8503A 50%, #D93D1A 100%);
+        radial-gradient(ellipse at 18% 55%, rgba(251,135,70,0.38) 0%, transparent 52%),
+        radial-gradient(ellipse at 82% 28%, rgba(236,98,87,0.32) 0%, transparent 52%),
+        linear-gradient(142deg, #FB8746 0%, #EC6257 52%, #d44d42 100%);
     }
 
     /* ── CTA gradient ── */
     .cta-bg {
       background:
-        radial-gradient(ellipse at 30% 50%, rgba(255,170,0,0.40) 0%, transparent 55%),
-        linear-gradient(135deg, #F5931E 0%, #E8503A 60%, #D93D1A 100%);
+        radial-gradient(ellipse at 28% 52%, rgba(251,135,70,0.42) 0%, transparent 56%),
+        linear-gradient(138deg, #FB8746 0%, #EC6257 60%, #d44d42 100%);
     }
 
-    /* ── Animations ── */
+    /* ── Keyframes ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
+      from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeIn {
@@ -90,30 +133,80 @@
       to   { opacity: 1; }
     }
     @keyframes floatPeach {
-      0%, 100% { transform: translateY(0px) rotate(-1deg); }
-      50%       { transform: translateY(-18px) rotate(1deg); }
+      0%,100% { transform: translateY(0px)   rotate(-1.2deg); }
+      50%      { transform: translateY(-22px) rotate(1.2deg); }
+    }
+    @keyframes peachDance {
+      0%   { transform: translateY(0px)    rotate(-3deg)  scale(1);     }
+      12%  { transform: translateY(-18px)  rotate(3.5deg) scale(1.04);  }
+      25%  { transform: translateY(-4px)   rotate(-2deg)  scale(1.01);  }
+      37%  { transform: translateY(-22px)  rotate(4deg)   scale(1.05);  }
+      50%  { transform: translateY(-2px)   rotate(-3.5deg) scale(1.01); }
+      62%  { transform: translateY(-20px)  rotate(3deg)   scale(1.04);  }
+      75%  { transform: translateY(-6px)   rotate(-2.5deg) scale(1.02); }
+      87%  { transform: translateY(-16px)  rotate(3.5deg) scale(1.03);  }
+      100% { transform: translateY(0px)    rotate(-3deg)  scale(1);     }
+    }
+    @keyframes danceGlow {
+      0%,100% { filter: drop-shadow(0 64px 96px rgba(0,0,0,0.28)) drop-shadow(0 20px 40px rgba(236,98,87,0.36)) drop-shadow(0 0 40px rgba(251,135,70,0.5)); }
+      50%     { filter: drop-shadow(0 64px 96px rgba(0,0,0,0.28)) drop-shadow(0 20px 40px rgba(236,98,87,0.8)) drop-shadow(0 0 80px rgba(251,135,70,0.9)); }
+    }
+    @keyframes notePop {
+      0%   { opacity: 0; transform: translate(0, 0) scale(0.5) rotate(-10deg); }
+      20%  { opacity: 1; transform: translate(var(--nx), calc(var(--ny) * 0.3)) scale(1.2) rotate(10deg); }
+      80%  { opacity: 0.6; }
+      100% { opacity: 0; transform: translate(calc(var(--nx) * 1.4), var(--ny)) scale(0.8) rotate(20deg); }
+    }
+    .float-peach {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ctext y='30' font-size='28'%3E🎵%3C/text%3E%3C/svg%3E") 20 20, pointer;
+    }
+    .float-peach:hover img {
+      filter: drop-shadow(0 64px 96px rgba(0,0,0,0.28))
+              drop-shadow(0 20px 40px rgba(236,98,87,0.36))
+              drop-shadow(0 0 48px rgba(251,135,70,0.65)) !important;
+      transform: scale(1.04);
+      transition: transform 0.4s cubic-bezier(0.34,1.4,0.64,1), filter 0.4s ease;
+    }
+    .float-peach.dancing {
+      animation: peachDance 2.3s ease-in-out infinite !important;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ctext y='30' font-size='28'%3E🎵%3C/text%3E%3C/svg%3E") 20 20, pointer;
+    }
+    .float-peach.dancing img {
+      animation: danceGlow 2.3s ease-in-out infinite !important;
+    }
+    .music-note {
+      position: absolute;
+      font-size: 1.6rem;
+      pointer-events: none;
+      z-index: 10;
+      animation: notePop 1.2s cubic-bezier(0.34,1.2,0.64,1) forwards;
     }
     @keyframes scaleIn {
-      from { opacity: 0; transform: scale(0.92); }
+      from { opacity: 0; transform: scale(0.85); }
       to   { opacity: 1; transform: scale(1); }
     }
+    @keyframes manifestoReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-    .anim-fade-up     { animation: fadeUp  0.7s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-    .anim-fade-in     { animation: fadeIn  0.6s ease forwards; }
-    .anim-scale-in    { animation: scaleIn 0.8s cubic-bezier(0.34,1.4,0.64,1) forwards; }
-    .float-peach      { animation: floatPeach 6s ease-in-out infinite; }
+    .anim-fade-up  { opacity: 0; animation: fadeUp  0.70s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .anim-fade-in  { opacity: 0; animation: fadeIn  0.60s ease forwards; }
+    .anim-scale-in { opacity: 0; animation: scaleIn 0.90s cubic-bezier(0.34,1.4,0.64,1)  forwards; }
+    .float-peach   { animation: floatPeach 6.5s ease-in-out infinite; }
 
-    .delay-100  { animation-delay: 0.10s; }
-    .delay-200  { animation-delay: 0.20s; }
-    .delay-300  { animation-delay: 0.30s; }
-    .delay-400  { animation-delay: 0.40s; }
-    .delay-500  { animation-delay: 0.50s; }
-    .delay-600  { animation-delay: 0.60s; }
+    .delay-100 { animation-delay: 0.10s; }
+    .delay-200 { animation-delay: 0.20s; }
+    .delay-300 { animation-delay: 0.30s; }
+    .delay-400 { animation-delay: 0.40s; }
+    .delay-500 { animation-delay: 0.50s; }
+    .delay-600 { animation-delay: 0.60s; }
+    .delay-700 { animation-delay: 0.70s; }
 
-    /* ── Nav link hover ── */
+    /* ── Nav link ── */
     .nav-link {
       position: relative;
-      color: rgba(255,255,255,0.80);
+      color: var(--text-body);
       font-size: 0.80rem;
       font-weight: 500;
       letter-spacing: 0.03em;
@@ -125,71 +218,74 @@
       position: absolute;
       bottom: -3px; left: 0;
       width: 0; height: 1.5px;
-      background: #FFAA00;
+      background: var(--coral);
       transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1);
     }
-    .nav-link:hover { color: #fff; }
+    .nav-link:hover { color: var(--coral); }
     .nav-link:hover::after { width: 100%; }
-    .nav-link:focus-visible {
-      outline: 2px solid rgba(255,170,0,0.7);
-      outline-offset: 4px;
-      border-radius: 3px;
-    }
+    .nav-link:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 4px; border-radius: 3px; }
 
-    /* ── CTA button ── */
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 32px;
-      border-radius: 50px;
-      background: #fff;
-      color: var(--coral);
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: -0.01em;
+    /* ── Nav link inverted (on dark/gradient bg) ── */
+    .nav-link-inv {
+      position: relative;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.80rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
       text-decoration: none;
-      box-shadow:
-        0 4px 20px rgba(216,61,26,0.25),
-        0 1px 4px rgba(0,0,0,0.10);
-      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1),
-                  box-shadow 0.2s ease,
-                  background 0.2s ease;
+      transition: color 0.25s ease;
     }
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 36px rgba(216,61,26,0.35), 0 2px 8px rgba(0,0,0,0.12);
-      background: #fff7f4;
+    .nav-link-inv::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: rgba(255,255,255,0.70);
+      transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1);
     }
+    .nav-link-inv:hover { color: #fff; }
+    .nav-link-inv:hover::after { width: 100%; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 50px;
+      background: #fff; color: var(--coral);
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.90rem; letter-spacing: -0.01em;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(236,98,87,0.28), 0 1px 4px rgba(0,0,0,0.10);
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 36px rgba(236,98,87,0.38), 0 2px 8px rgba(0,0,0,0.12); background: #fff8f7; }
     .btn-primary:active { transform: translateY(0) scale(0.98); }
     .btn-primary:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
     .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 30px;
-      border-radius: 50px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 30px; border-radius: 50px;
       border: 1.5px solid rgba(255,255,255,0.55);
-      background: transparent;
-      color: #fff;
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      text-decoration: none;
+      background: transparent; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.88rem;
+      cursor: pointer; text-decoration: none;
       transition: border-color 0.25s, background 0.25s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
     }
-    .btn-outline:hover {
-      border-color: #fff;
-      background: rgba(255,255,255,0.10);
-      transform: translateY(-2px);
-    }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.10); transform: translateY(-2px); }
     .btn-outline:active { transform: translateY(0); }
     .btn-outline:focus-visible { outline: 2px solid rgba(255,255,255,0.7); outline-offset: 4px; }
 
-    /* ── Service card ── */
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 30px; border-radius: 50px;
+      border: 1.5px solid var(--coral);
+      background: transparent; color: var(--coral);
+      font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.88rem;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.25s, color 0.25s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn-secondary:hover { background: var(--coral); color: #fff; transform: translateY(-2px); }
+    .btn-secondary:active { transform: translateY(0); }
+
+    /* ── Service cards ── */
     .service-card {
       position: relative;
       padding: 28px 24px;
@@ -197,109 +293,183 @@
       border-radius: 16px;
       background: rgba(255,255,255,0.08);
       backdrop-filter: blur(8px);
-      transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1),
-                  background 0.25s,
-                  box-shadow 0.25s;
+      transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1), background 0.25s, box-shadow 0.25s;
     }
     .service-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-7px);
       background: rgba(255,255,255,0.14);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.20);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.22);
     }
 
-    /* ── Peach photo strip ── */
-    .peach-strip img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-      filter: saturate(1.3) contrast(1.05);
-      transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1), filter 0.3s ease;
-    }
-    .peach-strip img:hover {
-      transform: scale(1.04);
-      filter: saturate(1.5) contrast(1.1);
+    /* ── Section label ── */
+    .section-label {
+      display: inline-block;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--coral);
+      padding: 5px 14px; border-radius: 50px;
+      background: var(--label-bg);
+      margin-bottom: 16px;
     }
 
-    /* ── Social icon ── */
+    /* ── Social icons ── */
     .social-icon {
       width: 34px; height: 34px;
       display: inline-flex; align-items: center; justify-content: center;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.25);
-      color: rgba(255,255,255,0.75);
-      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      border: 1px solid var(--border-c);
+      color: var(--text-muted);
       text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
     }
-    .social-icon:hover {
-      border-color: #FFAA00;
-      color: #FFAA00;
-      background: rgba(255,170,0,0.10);
-      transform: translateY(-3px);
-    }
+    .social-icon:hover { border-color: var(--coral); color: var(--coral); background: rgba(236,98,87,0.08); transform: translateY(-3px); }
     .social-icon:active { transform: translateY(0); }
-    .social-icon:focus-visible { outline: 2px solid rgba(255,170,0,0.7); outline-offset: 3px; }
+    .social-icon:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 3px; border-radius: 50%; }
+
+    .social-icon-inv {
+      width: 34px; height: 34px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.60);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .social-icon-inv:hover { border-color: rgba(255,255,255,0.75); color: #fff; background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+    .social-icon-inv:active { transform: translateY(0); }
 
     /* ── Dot nav ── */
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1C4BC; transition: background 0.2s, transform 0.2s; cursor: pointer; }
-    .dot.active { background: var(--coral); transform: scale(1.4); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-c); transition: background 0.2s, transform 0.2s; cursor: pointer; border: none; }
+    .dot.active, .dot:focus { background: var(--coral); transform: scale(1.4); outline: none; }
     .dot:hover { background: var(--orange); }
 
-    /* ── Section divider ── */
-    .section-label {
-      display: inline-block;
-      font-size: 0.70rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--coral);
-      padding: 5px 14px;
-      border-radius: 50px;
-      background: rgba(232,80,58,0.10);
-      margin-bottom: 16px;
-    }
-
-    /* ── Peach play button ── */
+    /* ── Play button ── */
     .play-btn {
-      width: 56px; height: 56px;
-      border-radius: 50%;
+      width: 56px; height: 56px; border-radius: 50%; border: none;
       background: var(--coral);
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 28px rgba(232,80,58,0.45);
+      box-shadow: 0 8px 28px rgba(236,98,87,0.48);
       cursor: pointer;
       transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
     }
-    .play-btn:hover {
-      transform: scale(1.12);
-      box-shadow: 0 12px 36px rgba(232,80,58,0.55);
-    }
+    .play-btn:hover { transform: scale(1.13); box-shadow: 0 14px 38px rgba(236,98,87,0.58); }
     .play-btn:active { transform: scale(0.96); }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1.5px solid var(--border-c);
+      background: var(--card-bg);
+      color: var(--text-body);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--coral); color: var(--coral); background: rgba(236,98,87,0.07); transform: rotate(18deg) scale(1.08); }
+    .theme-toggle:active { transform: scale(0.94); }
+    .theme-toggle:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 3px; border-radius: 50%; }
+
+    /* ── Logo strip ── */
+    .logo-strip-item {
+      height: 64px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.42;
+      filter: grayscale(1);
+      transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.34,1.4,0.64,1), filter 0.28s ease;
+    }
+    .logo-strip-item:hover { opacity: 1; transform: translateY(-4px); filter: grayscale(0); }
+
+    /* ── Manifesto ── */
+    .manifesto-line {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.25rem, 2.6vw, 2rem);
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: -0.015em;
+      color: var(--text-h);
+      transition: color 0.35s ease;
+    }
+    .manifesto-line.accent {
+      color: var(--coral);
+      font-weight: 800;
+    }
+
+    /* ── Peach strip (legacy photo strip → now logo strip) ── */
+    .peach-strip-photo {
+      width: 100%; height: 200px;
+      object-fit: cover; display: block;
+      filter: saturate(1.3) contrast(1.05);
+      transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1), filter 0.3s ease;
+    }
+    .peach-strip-photo:hover { transform: scale(1.04); filter: saturate(1.5) contrast(1.1); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .about-grid  { grid-template-columns: 1fr !important; }
+      .footer-grid { grid-template-columns: 1fr !important; text-align: center; }
+      /* V4 hero: stack peach above text on mobile */
+      .hero-grid {
+        grid-template-columns: 1fr !important;
+        min-height: auto !important;
+      }
+      .hero-peach-col {
+        order: -1;
+        padding: 48px 20px 8px !important;
+      }
+      .hero-peach-col .float-peach {
+        width: min(320px, 72vw) !important;
+      }
+      .hero-text-col {
+        padding: 8px 24px 80px !important;
+      }
+    }
+    @media (max-width: 768px) {
+      .services-grid   { grid-template-columns: 1fr 1fr !important; }
+      .logo-strip-grid { grid-template-columns: repeat(3,1fr) !important; }
+      .nav-links-hide  { display: none !important; }
+    }
+    @media (max-width: 480px) {
+      .services-grid   { grid-template-columns: 1fr !important; }
+      .logo-strip-grid { grid-template-columns: repeat(2,1fr) !important; }
+    }
   </style>
+  <!-- Tailwind config MUST be defined before the CDN script loads -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { fontFamily: { sans: ['Montserrat', 'sans-serif'] } } }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- NAV                                                        -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<header style="background:#1C1412; position:sticky; top:0; z-index:50; border-bottom:1px solid rgba(255,255,255,0.06);">
-  <nav style="max-width:1180px; margin:0 auto; padding:0 28px; height:62px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+<header style="background: var(--nav-bg); position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow: var(--nav-shadow); transition: background 0.35s ease, box-shadow 0.35s ease;">
+  <nav style="max-width:1180px; margin:0 auto; padding:0 28px; height:96px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
 
-    <!-- Logo wordmark -->
-    <a href="#" style="flex-shrink:0; display:flex; align-items:center; text-decoration:none; height:36px; gap:8px;" aria-label="Peach Studio — Inicio">
-      <img src="brand_assets/Logo_Peach-removebg.png" alt="" aria-hidden="true" style="height:32px; width:auto; display:block;" />
-      <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:1.3rem; color:#fff; letter-spacing:-0.04em; line-height:1;">peach</span>
+    <!-- Logo: icon + wordmark -->
+    <a href="#" style="flex-shrink:0; display:flex; align-items:center; gap:12px; text-decoration:none; height:80px;" aria-label="Peach Studio — Inicio">
+      <img id="nav-icon" src="brand_assets/Logo_Peach_Naranja.png" alt="" aria-hidden="true"
+           style="height:72px; width:auto; display:block;" />
+      <img id="nav-wordmark" src="brand_assets/Logo_Palabra_Peach_Negro.png" alt="Peach"
+           style="height:80px; width:auto; display:block; object-fit:contain; transition: opacity 0.2s ease;" />
     </a>
 
     <!-- Nav links (desktop) -->
-    <div style="display:flex; align-items:center; gap:28px; flex:1; justify-content:center;">
-      <a href="#" class="nav-link">Inicio</a>
-      <a href="#nosotros" class="nav-link">Nosotros</a>
+    <div class="nav-links-hide" style="display:flex; align-items:center; gap:28px; flex:1; justify-content:center;">
+      <a href="#"          class="nav-link">Inicio</a>
+      <a href="#nosotros"  class="nav-link">Nosotros</a>
       <a href="#servicios" class="nav-link">Servicios</a>
-      <a href="#blog" class="nav-link">Blog</a>
-      <a href="#contacto" class="nav-link">Contacto</a>
+      <a href="#blog"      class="nav-link">Blog</a>
+      <a href="#contacto"  class="nav-link">Contacto</a>
     </div>
 
-    <!-- Social icons -->
+    <!-- Right side: social + theme toggle -->
     <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
       <a href="#" class="social-icon" aria-label="LinkedIn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -310,75 +480,109 @@
       <a href="#" class="social-icon" aria-label="YouTube">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
+
+      <!-- Theme toggle button -->
+      <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar a modo oscuro" type="button">
+        <!-- Icon injected by JS -->
+      </button>
     </div>
   </nav>
 </header>
 
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- HERO                                                       -->
+<!-- HERO  V4: CSS grid — text LEFT ~56%, peach RIGHT ~44%     -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section class="hero-bg noise" style="position:relative; min-height:90vh; display:flex; align-items:center; overflow:hidden; padding:60px 0 0;">
+<section class="hero-bg noise" style="position:relative; min-height:100vh; overflow:hidden; padding-top:96px;">
 
-  <!-- Decorative radial glow -->
+  <!-- Decorative radial glows -->
   <div style="position:absolute; inset:0; pointer-events:none; z-index:0;">
-    <div style="position:absolute; top:-80px; right:-80px; width:600px; height:600px; background:radial-gradient(circle, rgba(255,200,100,0.18) 0%, transparent 70%); border-radius:50%;"></div>
-    <div style="position:absolute; bottom:-100px; left:-100px; width:500px; height:500px; background:radial-gradient(circle, rgba(217,61,26,0.20) 0%, transparent 70%); border-radius:50%;"></div>
+    <div style="position:absolute; top:-100px; right:-100px; width:680px; height:680px; background:radial-gradient(circle, rgba(255,210,110,0.16) 0%, transparent 68%); border-radius:50%;"></div>
+    <div style="position:absolute; bottom:-120px; left:-120px; width:560px; height:560px; background:radial-gradient(circle, rgba(236,98,87,0.18) 0%, transparent 68%); border-radius:50%;"></div>
   </div>
 
-  <div style="position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 28px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; min-height:82vh;">
+  <!-- Hero grid: text LEFT, peach RIGHT -->
+  <div class="hero-grid"
+       style="position:relative; z-index:2; display:grid; grid-template-columns:56% 44%;
+              min-height:calc(100vh - 96px); align-items:center; max-width:1440px; margin:0 auto;">
 
-    <!-- Left: copy -->
-    <div style="padding-bottom:60px;">
-      <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(2.2rem, 4vw, 3.2rem); font-weight:800; color:#fff; line-height:1.08; letter-spacing:-0.03em; margin-bottom:20px;">
+    <!-- LEFT: Text content -->
+    <div class="hero-text-col" style="padding:80px 40px 80px 56px;">
+
+      <div class="anim-fade-in" style="margin-bottom:22px;">
+        <span style="display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.15em;
+                     text-transform:uppercase; color:rgba(255,255,255,0.88);
+                     padding:5px 14px; border-radius:50px;
+                     background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.28);">
+          Estudio de Comunicación
+        </span>
+      </div>
+
+      <h1 class="anim-fade-up delay-100"
+          style="font-size:clamp(2.2rem, 3.8vw, 3.4rem); font-weight:900; color:#fff;
+                 line-height:1.12; letter-spacing:-0.03em; margin-bottom:24px;">
         Eso que pasa cuando la estrategia se mezcla con la identidad
       </h1>
-      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; color:rgba(255,255,255,0.88); line-height:1.75; margin-bottom:12px; max-width:430px;">
-        No es magia. Es método. Es <strong style="color:#fff;">Peach Studio</strong>.
+
+      <p class="anim-fade-up delay-200"
+         style="font-size:1.08rem; font-weight:600; color:rgba(255,255,255,0.96);
+                line-height:1.55; margin-bottom:14px;">
+        No es magia. Es método. Es <strong style="color:#fff; font-weight:800;">Peach Studio</strong>.
       </p>
-      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.72); line-height:1.72; margin-bottom:34px; max-width:400px;">
-        Un estudio de comunicación que te ayuda a construir una marca que suene bien, se vea mejor y conecte de verdad.
+
+      <p class="anim-fade-up delay-300"
+         style="font-size:0.96rem; font-weight:400; color:rgba(255,255,255,0.74);
+                line-height:1.80; margin-bottom:42px;">
+        Un estudio de comunicación que te ayuda a construir una marca que suene bien,
+        se vea mejor y conecte de verdad.
       </p>
-      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+
+      <div class="anim-fade-up delay-400" style="display:flex; gap:14px; flex-wrap:wrap;">
         <a href="#servicios" class="btn-primary">Ver servicios</a>
-        <a href="#nosotros" class="btn-outline">Conocenos</a>
+        <a href="#nosotros"  class="btn-outline">Conocenos</a>
       </div>
+
     </div>
 
-    <!-- Right: peach mascot -->
-    <div class="anim-scale-in delay-200" style="display:flex; justify-content:center; align-items:flex-end; position:relative; padding-top:20px;">
-      <div class="float-peach" style="position:relative; z-index:2;">
+    <!-- RIGHT: Peach mascot -->
+    <div class="hero-peach-col anim-scale-in delay-100"
+         style="display:flex; align-items:center; justify-content:center; padding:40px 0 80px; overflow:visible;">
+      <div id="peach-dancer" class="float-peach" style="width:min(680px, 88%); position:relative;">
         <img
           src="brand_assets/Logo_Peach-removebg.png"
           alt="Peach mascot con auriculares y anteojos de sol"
-          style="width:min(480px, 90%); height:auto; display:block; filter:drop-shadow(0 40px 60px rgba(0,0,0,0.30)) drop-shadow(0 10px 20px rgba(217,61,26,0.25));"
+          style="width:100%; height:auto; display:block;
+                 filter: drop-shadow(0 64px 96px rgba(0,0,0,0.28))
+                         drop-shadow(0 20px 40px rgba(236,98,87,0.36));"
         />
+        <div style="position:absolute; bottom:4%; left:50%; transform:translateX(-40%); width:58%; height:28px;
+                    background:radial-gradient(ellipse, rgba(0,0,0,0.22) 0%, transparent 72%); border-radius:50%;"></div>
       </div>
-      <!-- soft floor shadow -->
-      <div style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:60%; height:30px; background:radial-gradient(ellipse, rgba(0,0,0,0.25) 0%, transparent 70%); border-radius:50%;"></div>
     </div>
 
-  </div>
+    <audio id="macarena" src="music/macarena.mp3" loop preload="auto"></audio>
 
-  <!-- bottom wave -->
-  <div style="position:absolute; bottom:0; left:0; right:0; line-height:0; z-index:3;">
+  </div><!-- /hero-grid -->
+
+  <!-- Bottom wave -->
+  <div style="position:absolute; bottom:0; left:0; right:0; line-height:0; z-index:4;">
     <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
-      <path d="M0,60 C360,0 1080,0 1440,60 L1440,60 L0,60 Z" fill="#FFF5EE"/>
+      <path id="wave-hero-bottom" d="M0,60 C360,0 1080,0 1440,60 L1440,60 L0,60 Z" fill="#F1F1F1"/>
     </svg>
   </div>
 </section>
 
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- INTRO / ABOUT TEXT                                         -->
+<!-- INTRO / ABOUT                                              -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section id="nosotros" style="background:#FFF5EE; padding:80px 28px 72px;">
+<section id="nosotros" style="background: var(--bg-base); padding:80px 28px 72px; transition: background 0.35s ease;">
   <div style="max-width:760px; margin:0 auto; text-align:center;">
     <span class="section-label">Quiénes somos</span>
-    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.15rem; color:#4A3728; line-height:1.80; margin-bottom:20px;">
-      En Peach Studio combinamos <strong style="color:var(--coral); font-weight:600;">estrategia de comunicación</strong> con <strong style="color:var(--coral); font-weight:600;">diseño de identidad</strong> para marcas que no quieren pasar desapercibidas.
+    <p style="font-size:1.15rem; font-weight:500; color:var(--text-body); line-height:1.82; margin-bottom:20px;">
+      En Peach Studio combinamos <strong style="color:var(--coral); font-weight:700;">estrategia de comunicación</strong> con <strong style="color:var(--coral); font-weight:700;">diseño de identidad</strong> para marcas que no quieren pasar desapercibidas.
     </p>
-    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.05rem; color:#7A6058; line-height:1.80; margin-bottom:0;">
+    <p style="font-size:1.05rem; font-weight:400; color:var(--text-muted); line-height:1.82;">
       No marketing del montón. No identidad genérica. Trabajamos con vos para que tu marca tenga algo que decir — y que lo diga bien.
     </p>
   </div>
@@ -388,47 +592,43 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- SPLIT: ABOUT / FEATURE                                     -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section style="background:#fff; padding:0 0 80px;">
-  <div style="max-width:1180px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;">
+<section style="background: var(--bg-surface); padding:0 0 88px; transition: background 0.35s ease;">
+  <div class="about-grid" style="max-width:1180px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;">
 
     <!-- Left: image -->
-    <div style="position:relative; border-radius:20px; overflow:hidden; box-shadow:0 24px 56px rgba(28,20,18,0.15), 0 6px 16px rgba(232,80,58,0.12);">
+    <div style="position:relative; border-radius:20px; overflow:hidden; box-shadow: var(--shadow-card);">
       <img
         src="brand_assets/Logo_Peach.jpg"
         alt="Sesión de trabajo creativo en Peach Studio"
         style="width:100%; height:440px; object-fit:cover; object-position:center 30%; display:block;"
       />
-      <!-- color overlay -->
-      <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,170,0,0.18) 0%, rgba(232,80,58,0.22) 100%); mix-blend-mode:multiply;"></div>
-      <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(28,20,18,0.40) 0%, transparent 50%);"></div>
+      <div style="position:absolute; inset:0; background:linear-gradient(138deg, rgba(251,135,70,0.18) 0%, rgba(236,98,87,0.24) 100%); mix-blend-mode:multiply;"></div>
+      <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.42) 0%, transparent 52%);"></div>
 
-      <!-- Play button overlay -->
       <div style="position:absolute; bottom:24px; left:24px; display:flex; align-items:center; gap:12px;">
         <button class="play-btn" aria-label="Ver video">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
         </button>
-        <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.9); font-weight:500;">Ver cómo trabajamos</span>
+        <span style="font-size:0.84rem; font-weight:500; color:rgba(255,255,255,0.90);">Ver cómo trabajamos</span>
       </div>
     </div>
 
     <!-- Right: text -->
     <div>
       <span class="section-label">Nuestro approach</span>
-      <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(1.9rem,3vw,2.7rem); font-weight:800; color:#1C1412; line-height:1.12; letter-spacing:-0.025em; margin-bottom:20px;">
+      <h2 style="font-size:clamp(1.85rem,3vw,2.7rem); font-weight:800; color:var(--text-h); line-height:1.11; letter-spacing:-0.026em; margin-bottom:22px; transition: color 0.35s ease;">
         Contenido con estrategia, identidad con criterio
       </h2>
-      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; color:#6B5248; line-height:1.78; margin-bottom:24px;">
+      <p style="font-size:1rem; font-weight:400; color:var(--text-body); line-height:1.80; margin-bottom:22px;">
         Cada marca que acompaña Peach Studio recibe un proceso con etapas claras: diagnóstico, definición de voz, diseño visual y producción de contenido. Todo conectado, nada improvisado.
       </p>
-      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; color:#6B5248; line-height:1.78; margin-bottom:36px;">
+      <p style="font-size:1rem; font-weight:400; color:var(--text-body); line-height:1.80; margin-bottom:36px;">
         La estrategia da el rumbo. La identidad, la personalidad. Y el contenido es el vehículo que te lleva a donde querés llegar.
       </p>
-
-      <!-- dots nav -->
       <div style="display:flex; gap:8px; align-items:center;">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+        <button class="dot active"></button>
+        <button class="dot"></button>
+        <button class="dot"></button>
       </div>
     </div>
 
@@ -439,24 +639,27 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- SERVICES                                                   -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section id="servicios" class="services-bg noise" style="position:relative; padding:80px 28px 88px;">
+<section id="servicios" class="services-bg noise" style="position:relative; padding:84px 28px 92px;">
 
   <div style="position:relative; z-index:2; max-width:1180px; margin:0 auto;">
     <div style="margin-bottom:52px;">
       <div style="display:inline-block; margin-bottom:14px; padding:5px 14px; border-radius:50px; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.28);">
-        <span style="font-size:0.70rem; font-weight:600; color:#fff; letter-spacing:0.14em; text-transform:uppercase;">Lo que hacemos</span>
+        <span style="font-size:0.68rem; font-weight:700; color:#fff; letter-spacing:0.15em; text-transform:uppercase;">Lo que hacemos</span>
       </div>
-      <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(2rem,3.5vw,2.9rem); font-weight:800; color:#fff; line-height:1.08; letter-spacing:-0.025em;">
+      <h2 style="font-size:clamp(2rem,3.5vw,2.9rem); font-weight:900; color:#fff; line-height:1.07; letter-spacing:-0.025em;">
         Nuestros Servicios
       </h2>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+    <div class="services-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
 
       <!-- Card 1 -->
       <div class="service-card">
-        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Estrategia de Comunicación</h3>
-        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Estrategia de Comunicación</h3>
+        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
           <li style="padding:3px 0;">Diagnóstico de marca</li>
           <li style="padding:3px 0;">Definición de audiencias</li>
           <li style="padding:3px 0;">Plan de comunicación</li>
@@ -467,8 +670,11 @@
 
       <!-- Card 2 -->
       <div class="service-card">
-        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Identidad Visual</h3>
-        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Identidad Visual</h3>
+        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
           <li style="padding:3px 0;">Logo y variantes</li>
           <li style="padding:3px 0;">Paleta y tipografía</li>
           <li style="padding:3px 0;">Manual de marca</li>
@@ -479,8 +685,11 @@
 
       <!-- Card 3 -->
       <div class="service-card">
-        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Producción de Contenido</h3>
-        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Producción de Contenido</h3>
+        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
           <li style="padding:3px 0;">Fotografía de marca</li>
           <li style="padding:3px 0;">Video y reels</li>
           <li style="padding:3px 0;">Copywriting</li>
@@ -491,8 +700,11 @@
 
       <!-- Card 4 -->
       <div class="service-card">
-        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Gestión de Redes</h3>
-        <ul style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.82rem; color:rgba(255,255,255,0.78); line-height:1.85; list-style:none; padding:0;">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Gestión de Redes</h3>
+        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
           <li style="padding:3px 0;">Pauta de contenidos</li>
           <li style="padding:3px 0;">Community management</li>
           <li style="padding:3px 0;">Respuestas y comentarios</li>
@@ -504,42 +716,90 @@
     </div>
   </div>
 
-  <!-- top wave -->
+  <!-- Top wave from bg-surface -->
   <div style="position:absolute; top:0; left:0; right:0; line-height:0; transform:rotate(180deg);">
-    <svg viewBox="0 0 1440 50" preserveAspectRatio="none" style="width:100%; height:50px; display:block;"><path d="M0,50 C360,0 1080,0 1440,50 L1440,50 L0,50 Z" fill="#fff"/></svg>
+    <svg viewBox="0 0 1440 50" preserveAspectRatio="none" style="width:100%; height:50px; display:block;">
+      <path id="wave-services-top" d="M0,50 C360,0 1080,0 1440,50 L1440,50 L0,50 Z" fill="#FFFFFF"/>
+    </svg>
   </div>
 </section>
 
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- PEACH PHOTO STRIP                                          -->
+<!-- MANIFESTO (NEW SECTION)                                    -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<div class="peach-strip" style="display:grid; grid-template-columns:repeat(5,1fr); overflow:hidden; height:200px;">
-  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 1" style="width:100%; height:200px; object-fit:cover; object-position:center;" />
-  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 2" style="width:100%; height:200px; object-fit:cover; object-position:30% center;" />
-  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 3" style="width:100%; height:200px; object-fit:cover; object-position:70% center;" />
-  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 4" style="width:100%; height:200px; object-fit:cover; object-position:80% center;" />
-  <img src="brand_assets/Logo_Peach.jpg" alt="durazno 5" style="width:100%; height:200px; object-fit:cover; object-position:20% center;" />
+<section style="background: var(--bg-base); padding:96px 28px 84px; text-align:center; transition: background 0.35s ease; position:relative; overflow:hidden;">
+
+  <!-- Background decorative peach icon -->
+  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); opacity:0.03; pointer-events:none; z-index:0;">
+    <img src="brand_assets/Logo_Peach_Naranja.png" alt="" aria-hidden="true" style="width:500px; height:auto;" />
+  </div>
+
+  <div style="position:relative; z-index:1; max-width:860px; margin:0 auto;">
+    <span class="section-label" style="margin-bottom:36px;">Nuestros aliados</span>
+
+    <blockquote style="margin:0; display:flex; flex-direction:column; gap:6px;">
+      <span class="manifesto-line" style="opacity:0; animation: manifestoReveal 0.75s cubic-bezier(0.34,1.4,0.64,1) 0.1s forwards;">
+        No somos una agencia que trabaja con clientes
+      </span>
+      <span class="manifesto-line accent" style="opacity:0; animation: manifestoReveal 0.75s cubic-bezier(0.34,1.4,0.64,1) 0.28s forwards;">
+        Somos personas que potencian a personas
+      </span>
+      <span class="manifesto-line" style="opacity:0; animation: manifestoReveal 0.75s cubic-bezier(0.34,1.4,0.64,1) 0.46s forwards;">
+        Y todas ellas hicieron equipo con nosotros
+      </span>
+    </blockquote>
+
+    <!-- Decorative accent line -->
+    <div style="width:52px; height:3px; background:var(--coral); border-radius:99px; margin:36px auto 0; opacity:0; animation: manifestoReveal 0.6s ease 0.64s forwards;"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- LOGO / PEOPLE STRIP                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div style="background: var(--bg-surface); padding:44px 28px; border-top:1px solid var(--border-c); border-bottom:1px solid var(--border-c); transition: background 0.35s ease, border-color 0.35s ease;">
+  <div style="max-width:1180px; margin:0 auto;">
+    <p style="font-size:0.68rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-muted); text-align:center; margin-bottom:30px;">Personas que confiaron en Peach</p>
+    <div class="logo-strip-grid" style="display:grid; grid-template-columns:repeat(5,1fr); gap:24px; align-items:center;">
+      <div class="logo-strip-item">
+        <img src="https://placehold.co/140x48/EC6257/FFFFFF?text=BRAND+1" alt="Brand 1" style="max-height:42px; width:auto; border-radius:6px;" />
+      </div>
+      <div class="logo-strip-item">
+        <img src="https://placehold.co/140x48/FB8746/FFFFFF?text=BRAND+2" alt="Brand 2" style="max-height:42px; width:auto; border-radius:6px;" />
+      </div>
+      <div class="logo-strip-item" style="opacity:0.55; filter:none;">
+        <img src="brand_assets/Logo_Peach_Naranja.png" alt="Peach" style="max-height:52px; width:auto;" />
+      </div>
+      <div class="logo-strip-item">
+        <img src="https://placehold.co/140x48/545454/FFFFFF?text=BRAND+4" alt="Brand 4" style="max-height:42px; width:auto; border-radius:6px;" />
+      </div>
+      <div class="logo-strip-item">
+        <img src="https://placehold.co/140x48/EC6257/FFFFFF?text=BRAND+5" alt="Brand 5" style="max-height:42px; width:auto; border-radius:6px;" />
+      </div>
+    </div>
+  </div>
 </div>
 
 
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- CTA                                                        -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section id="contacto" class="cta-bg noise" style="position:relative; padding:88px 28px 96px; text-align:center; overflow:hidden;">
+<section id="contacto" class="cta-bg noise" style="position:relative; padding:92px 28px 100px; text-align:center; overflow:hidden;">
 
   <div style="position:absolute; inset:0; pointer-events:none;">
-    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; height:600px; background:radial-gradient(circle, rgba(255,200,80,0.15) 0%, transparent 65%); border-radius:50%;"></div>
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:640px; height:640px; background:radial-gradient(circle, rgba(255,200,80,0.12) 0%, transparent 65%); border-radius:50%;"></div>
   </div>
 
-  <div style="position:relative; z-index:2; max-width:640px; margin:0 auto;">
+  <div style="position:relative; z-index:2; max-width:620px; margin:0 auto;">
     <div style="display:inline-block; margin-bottom:20px; padding:5px 16px; border-radius:50px; background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.28);">
-      <span style="font-size:0.72rem; font-weight:600; color:#fff; letter-spacing:0.12em; text-transform:uppercase;">Trabajemos juntos</span>
+      <span style="font-size:0.68rem; font-weight:700; color:#fff; letter-spacing:0.14em; text-transform:uppercase;">Trabajemos juntos</span>
     </div>
-    <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:800; color:#fff; line-height:1.10; letter-spacing:-0.03em; margin-bottom:18px;">
+    <h2 style="font-size:clamp(2rem,4vw,3rem); font-weight:900; color:#fff; line-height:1.09; letter-spacing:-0.03em; margin-bottom:18px;">
       ¿Querés algo distinto,<br/>pero con criterio?
     </h2>
-    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.05rem; color:rgba(255,255,255,0.82); line-height:1.72; margin-bottom:36px;">
+    <p style="font-size:1.04rem; font-weight:400; color:rgba(255,255,255,0.82); line-height:1.74; margin-bottom:38px;">
       Contanos tu proyecto y encontremos juntos la mejor forma de comunicarlo.
     </p>
     <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
@@ -553,49 +813,139 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- FOOTER                                                     -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<footer style="background:#1C1412; padding:52px 28px 40px; border-top:1px solid rgba(255,255,255,0.06);">
-  <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px;">
+<footer style="background:#111111; padding:56px 28px 40px; border-top:1px solid rgba(255,255,255,0.06);">
+  <div class="footer-grid" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:start; gap:24px;">
 
-    <!-- Left: logo -->
+    <!-- Left: logo + tagline -->
     <div>
-      <img src="brand_assets/Marca_Nombre_sin_fondo.png" alt="Peach Studio" style="height:26px; width:auto; display:block; object-fit:contain;" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend','<span style=\'font-family:Bricolage Grotesque,sans-serif;font-weight:800;font-size:1.4rem;color:#fff;letter-spacing:-0.03em;\'>peach</span>');" />
-      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.78rem; color:rgba(255,255,255,0.38); margin-top:10px; line-height:1.5;">
+      <img src="brand_assets/Logo_Palabra_Peach_Blanco.png" alt="Peach Studio"
+           style="height:110px; width:auto; display:block; object-fit:contain;"
+           onerror="this.outerHTML='<span style=\'font-family:Montserrat,sans-serif;font-weight:900;font-size:1.3rem;color:#fff;letter-spacing:-0.03em;\'>peach</span>';" />
+      <p style="font-size:0.78rem; font-weight:400; color:rgba(255,255,255,0.36); margin-top:14px; line-height:1.60;">
         Estudio de comunicación creativa.<br/>Buenos Aires, Argentina.
       </p>
     </div>
 
     <!-- Center: nav -->
-    <nav style="display:flex; gap:24px; align-items:center;">
-      <a href="#" class="nav-link">Inicio</a>
-      <a href="#nosotros" class="nav-link">Nosotros</a>
-      <a href="#servicios" class="nav-link">Servicios</a>
-      <a href="#blog" class="nav-link">Blog</a>
+    <nav style="display:flex; gap:22px; align-items:center; padding-top:2px;">
+      <a href="#"          class="nav-link-inv">Inicio</a>
+      <a href="#nosotros"  class="nav-link-inv">Nosotros</a>
+      <a href="#servicios" class="nav-link-inv">Servicios</a>
+      <a href="#blog"      class="nav-link-inv">Blog</a>
     </nav>
 
     <!-- Right: social -->
-    <div style="display:flex; gap:10px; justify-content:flex-end; align-items:center;">
-      <a href="#" class="social-icon" aria-label="LinkedIn">
+    <div style="display:flex; gap:10px; justify-content:flex-end; align-items:center; padding-top:2px;">
+      <a href="#" class="social-icon-inv" aria-label="LinkedIn">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
-      <a href="#" class="social-icon" aria-label="Instagram">
+      <a href="#" class="social-icon-inv" aria-label="Instagram">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
       </a>
-      <a href="#" class="social-icon" aria-label="YouTube">
+      <a href="#" class="social-icon-inv" aria-label="YouTube">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
     </div>
   </div>
 
-  <!-- divider -->
-  <div style="max-width:1180px; margin:36px auto 0; border-top:1px solid rgba(255,255,255,0.07); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.28);">
+  <!-- Divider + copyright -->
+  <div style="max-width:1180px; margin:36px auto 0; border-top:1px solid rgba(255,255,255,0.07); padding-top:26px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <p style="font-size:0.75rem; font-weight:400; color:rgba(255,255,255,0.28);">
       &copy; 2026 Peach Studio. Todos los derechos reservados.
     </p>
-    <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.28);">
+    <p style="font-size:0.75rem; font-weight:400; color:rgba(255,255,255,0.28);">
       Hecho con criterio (y con mucho durazno).
     </p>
   </div>
 </footer>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- THEME TOGGLE JS                                            -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<script>
+  (function() {
+    var html        = document.documentElement;
+    var toggleBtn   = document.getElementById('theme-toggle');
+    var navWordmark = document.getElementById('nav-wordmark');
+
+    var MOON_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    var SUN_SVG  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+
+    function updateUI() {
+      var isDark = html.classList.contains('dark');
+
+      /* Toggle icon */
+      toggleBtn.innerHTML = isDark ? SUN_SVG : MOON_SVG;
+      toggleBtn.setAttribute('aria-label', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+
+      /* Nav wordmark swap — Naranja for light, Blanco for dark */
+      navWordmark.src = isDark
+        ? 'brand_assets/Logo_Palabra_Peach_Blanco.png'
+        : 'brand_assets/Logo_Palabra_Peach_Negro.png';
+
+      /* Wave SVG color adaptation (matches updated dark bg vars) */
+      var waveHeroBottom   = document.getElementById('wave-hero-bottom');
+      var waveServicesTop  = document.getElementById('wave-services-top');
+      if (waveHeroBottom)  waveHeroBottom.setAttribute('fill',  isDark ? '#0A0A0A' : '#F1F1F1');
+      if (waveServicesTop) waveServicesTop.setAttribute('fill', isDark ? '#111111' : '#FFFFFF');
+    }
+
+    toggleBtn.addEventListener('click', function() {
+      html.classList.toggle('dark');
+      localStorage.setItem('peach-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      updateUI();
+    });
+
+    /* Initial render */
+    updateUI();
+  })();
+</script>
+
+<!-- ── Peach dance + Macarena ── -->
+<script>
+  (function() {
+    var dancer  = document.getElementById('peach-dancer');
+    var audio   = document.getElementById('macarena');
+    var noteEmojis = ['🎵','🎶','🎸','🎤','🎷','🥁'];
+    var noteInterval = null;
+    var playing = false;
+
+    function spawnNote() {
+      var note = document.createElement('span');
+      note.className = 'music-note';
+      note.textContent = noteEmojis[Math.floor(Math.random() * noteEmojis.length)];
+      var angle = Math.random() * 360;
+      var dist  = 80 + Math.random() * 80;
+      var nx = Math.round(Math.cos(angle) * dist);
+      var ny = Math.round(-Math.abs(Math.sin(angle)) * dist - 40);
+      note.style.setProperty('--nx', nx + 'px');
+      note.style.setProperty('--ny', ny + 'px');
+      note.style.left = (30 + Math.random() * 40) + '%';
+      note.style.top  = (20 + Math.random() * 40) + '%';
+      dancer.appendChild(note);
+      setTimeout(function() { note.remove(); }, 1200);
+    }
+
+    // Click = toggle music + dance
+    dancer.addEventListener('click', function() {
+      if (!playing) {
+        playing = true;
+        dancer.classList.add('dancing');
+        audio.currentTime = 0;
+        audio.play().catch(function(){});
+        spawnNote();
+        noteInterval = setInterval(spawnNote, 1150);
+      } else {
+        playing = false;
+        dancer.classList.remove('dancing');
+        audio.pause();
+        audio.currentTime = 0;
+        clearInterval(noteInterval);
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>

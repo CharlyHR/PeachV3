@@ -20,6 +20,8 @@ const MIME = {
   '.ico':  'image/x-icon',
   '.woff': 'font/woff',
   '.woff2':'font/woff2',
+  '.ttf':  'font/ttf',
+  '.otf':  'font/otf',
 };
 
 const server = http.createServer((req, res) => {
