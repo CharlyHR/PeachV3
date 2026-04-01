@@ -429,10 +429,74 @@
       .services-grid   { grid-template-columns: 1fr 1fr !important; }
       .logo-strip-grid { grid-template-columns: repeat(3,1fr) !important; }
       .nav-links-hide  { display: none !important; }
+      .nav-social-hide { display: none !important; }
     }
     @media (max-width: 480px) {
       .services-grid   { grid-template-columns: 1fr !important; }
       .logo-strip-grid { grid-template-columns: repeat(2,1fr) !important; }
+    }
+
+    /* ── Hamburger button ── */
+    .hamburger-btn {
+      display: none;
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-c);
+      background: var(--card-bg);
+      cursor: pointer;
+      flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      transition: border-color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .hamburger-btn:hover { border-color: var(--coral); background: rgba(236,98,87,0.07); }
+    .hamburger-btn:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 3px; border-radius: 10px; }
+    .ham-line {
+      width: 16px; height: 1.5px;
+      background: var(--text-body);
+      border-radius: 2px;
+      transition: transform 0.28s cubic-bezier(0.34,1.2,0.64,1), opacity 0.2s ease;
+      transform-origin: center;
+    }
+    .hamburger-btn.is-open .ham-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger-btn.is-open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger-btn.is-open .ham-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    @media (max-width: 768px) { .hamburger-btn { display: flex; } }
+
+    /* ── Mobile dropdown menu ── */
+    .mobile-menu {
+      position: fixed;
+      top: 96px; left: 0; right: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-c);
+      z-index: 49;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.38s cubic-bezier(0.34,1.2,0.64,1);
+    }
+    .mobile-menu.open { max-height: 480px; }
+    .mobile-menu-inner { padding: 12px 0 20px; }
+    .mobile-menu a {
+      display: block;
+      padding: 13px 24px;
+      font-size: 0.92rem; font-weight: 600; letter-spacing: 0.01em;
+      color: var(--text-body);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: color 0.18s, background 0.18s, border-color 0.18s;
+    }
+    .mobile-menu a:hover, .mobile-menu a:active {
+      color: var(--coral);
+      background: rgba(236,98,87,0.06);
+      border-left-color: var(--coral);
+    }
+    .mobile-menu-divider {
+      height: 1px; background: var(--border-c);
+      margin: 10px 24px;
+    }
+    .mobile-menu-social {
+      display: flex; gap: 10px; padding: 6px 24px 0;
     }
   </style>
   <!-- Tailwind config MUST be defined before the CDN script loads -->
@@ -465,21 +529,25 @@
       <a href="#"          class="nav-link">Inicio</a>
       <a href="#nosotros"  class="nav-link">Nosotros</a>
       <a href="#servicios" class="nav-link">Servicios</a>
-      <a href="#blog"      class="nav-link">Blog</a>
+      <a href="#trabajo"   class="nav-link">Nuestro Trabajo</a>
       <a href="#contacto"  class="nav-link">Contacto</a>
-      <a href="/tienda.html" class="nav-link">Tienda</a>
+      <!-- TIENDA: Para re-habilitar la tienda, descomentá esta línea y apuntá href a donde corresponda -->
+      <!-- <a href="/tienda.html" class="nav-link">Tienda</a> -->
     </div>
 
-    <!-- Right side: social + theme toggle -->
+    <!-- Right side: social + theme toggle + hamburger -->
     <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
-      <a href="#" class="social-icon" aria-label="LinkedIn">
+      <!-- Hamburger (mobile only) -->
+      <button id="hamburger-btn" class="hamburger-btn" aria-label="Menú" aria-expanded="false" type="button">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon nav-social-hide" aria-label="LinkedIn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
-      <a href="#" class="social-icon" aria-label="Instagram">
+      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon nav-social-hide" aria-label="Instagram">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-      </a>
-      <a href="#" class="social-icon" aria-label="YouTube">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
 
       <!-- Theme toggle button -->
@@ -490,6 +558,29 @@
   </nav>
 </header>
 
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- MOBILE DROPDOWN MENU                                       -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <a href="#"          id="mm-inicio">Inicio</a>
+    <a href="#nosotros"  id="mm-nosotros">Nosotros</a>
+    <a href="#servicios" id="mm-servicios">Servicios</a>
+    <a href="#trabajo"   id="mm-trabajo">Nuestro Trabajo</a>
+    <a href="#contacto"  id="mm-contacto">Contacto</a>
+    <a href="/contacto.html" id="mm-escribinos" style="color:var(--coral); font-weight:700;">Escribinos</a>
+    <div class="mobile-menu-divider"></div>
+    <div class="mobile-menu-social">
+      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- HERO  V4: CSS grid — text LEFT ~56%, peach RIGHT ~44%     -->
@@ -548,7 +639,7 @@
     <!-- RIGHT: Peach mascot -->
     <div class="hero-peach-col anim-scale-in delay-100"
          style="display:flex; align-items:center; justify-content:center; padding:40px 0 80px; overflow:visible;">
-      <div id="peach-dancer" class="float-peach" style="width:min(680px, 88%); position:relative;">
+      <div id="peach-dancer" class="float-peach" style="width:min(816px, 88%); position:relative;">
         <img
           src="brand_assets/Logo_Peach-removebg.png"
           alt="Peach mascot con auriculares y anteojos de sol"
@@ -617,20 +708,23 @@
     <!-- Right: text -->
     <div>
       <span class="section-label">Nuestro approach</span>
-      <h2 style="font-size:clamp(1.85rem,3vw,2.7rem); font-weight:800; color:var(--text-h); line-height:1.11; letter-spacing:-0.026em; margin-bottom:22px; transition: color 0.35s ease;">
-        Contenido con estrategia, identidad con criterio
-      </h2>
-      <p style="font-size:1rem; font-weight:400; color:var(--text-body); line-height:1.80; margin-bottom:22px;">
-        Cada marca que acompaña Peach Studio recibe un proceso con etapas claras: diagnóstico, definición de voz, diseño visual y producción de contenido. Todo conectado, nada improvisado.
+      <!-- IMAGEN/VIDEO: Para cambiar la imagen de la izquierda por un video:
+           - YouTube: reemplazá el <img> en la columna izquierda por:
+             <iframe width="100%" height="440" src="https://www.youtube.com/embed/VIDEO_ID"
+               frameborder="0" allowfullscreen style="border-radius:20px;"></iframe>
+           - Instagram Reels: embed con el oEmbed de Instagram o un <iframe> del post.
+           - Video propio: <video src="ruta/al/video.mp4" autoplay muted loop playsinline
+               style="width:100%; height:440px; object-fit:cover; border-radius:20px;"></video>
+      -->
+      <p style="font-size:1.18rem; font-weight:700; color:var(--text-h); line-height:1.55; letter-spacing:-0.015em; margin-bottom:16px; transition: color 0.35s ease;">
+        La estrategia define el rumbo.
       </p>
-      <p style="font-size:1rem; font-weight:400; color:var(--text-body); line-height:1.80; margin-bottom:36px;">
-        La estrategia da el rumbo. La identidad, la personalidad. Y el contenido es el vehículo que te lleva a donde querés llegar.
+      <p style="font-size:1.18rem; font-weight:700; color:var(--coral); line-height:1.55; letter-spacing:-0.015em; margin-bottom:16px;">
+        La identidad construye la personalidad.
       </p>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button class="dot active"></button>
-        <button class="dot"></button>
-        <button class="dot"></button>
-      </div>
+      <p style="font-size:1.18rem; font-weight:700; color:var(--text-h); line-height:1.55; letter-spacing:-0.015em; transition: color 0.35s ease;">
+        Y el contenido es el vehículo que te lleva a donde querés llegar.
+      </p>
     </div>
 
   </div>
@@ -657,46 +751,34 @@
       <!-- Card 1 -->
       <div class="service-card">
         <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
-        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Estrategia de Comunicación</h3>
-        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
-          <li style="padding:3px 0;">Diagnóstico de marca</li>
-          <li style="padding:3px 0;">Definición de audiencias</li>
-          <li style="padding:3px 0;">Plan de comunicación</li>
-          <li style="padding:3px 0;">Mensajes clave</li>
-          <li style="padding:3px 0;">Canales y formatos</li>
-        </ul>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Estrategia y Consultoría</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Antes de hacer, pensamos.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">No tiramos ideas al aire. Nos metemos en tu negocio, entendemos qué querés lograr y armamos una base clara para que todo tenga sentido.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">Definimos propuesta de valor, audiencia y objetivos concretos. Sin esto, nada escala.</p>
       </div>
 
       <!-- Card 2 -->
       <div class="service-card">
         <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Identidad Visual</h3>
-        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
-          <li style="padding:3px 0;">Logo y variantes</li>
-          <li style="padding:3px 0;">Paleta y tipografía</li>
-          <li style="padding:3px 0;">Manual de marca</li>
-          <li style="padding:3px 0;">Aplicaciones digitales</li>
-          <li style="padding:3px 0;">Materiales impresos</li>
-        </ul>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Branding e Identidad</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Que tu marca no parezca una más.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">Construimos identidades con coherencia real: nombre, estética, tono y narrativa alineados.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">No es solo diseño. Es lograr que cuando alguien te vea, sepa que sos vos.</p>
       </div>
 
       <!-- Card 3 -->
       <div class="service-card">
         <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </div>
-        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Producción de Contenido</h3>
-        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
-          <li style="padding:3px 0;">Fotografía de marca</li>
-          <li style="padding:3px 0;">Video y reels</li>
-          <li style="padding:3px 0;">Copywriting</li>
-          <li style="padding:3px 0;">Diseño de posts</li>
-          <li style="padding:3px 0;">Newsletter</li>
-        </ul>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Creación de Contenidos</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Contenido que no queda en "subir por subir".</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">Desarrollamos piezas que conectan: redes sociales, campañas, blog, newsletters y guiones.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">Todo pensado para sostener atención y construir marca.</p>
       </div>
 
       <!-- Card 4 -->
@@ -704,14 +786,54 @@
         <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         </div>
-        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.2; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.18);">Gestión de Redes</h3>
-        <ul style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.88; list-style:none; padding:0;">
-          <li style="padding:3px 0;">Pauta de contenidos</li>
-          <li style="padding:3px 0;">Community management</li>
-          <li style="padding:3px 0;">Respuestas y comentarios</li>
-          <li style="padding:3px 0;">Métricas y reportes</li>
-          <li style="padding:3px 0;">Campañas pagadas</li>
-        </ul>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Social Media Management</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">No es solo postear.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">Planificamos, publicamos, interactuamos y analizamos. Gestionamos tus redes con criterio.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">Entendemos qué funciona y cómo optimizarlo.</p>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="service-card">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><polyline points="12 12 16 14"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Pauta Publicitaria</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Invertir, pero bien.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">Trabajamos con Meta Ads, Google Ads y LinkedIn Ads desde una lógica de performance.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">Nada de gastar por gastar: buscamos resultados medibles y crecimiento sostenido.</p>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="service-card">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Desarrollo Web</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Tu casa digital.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">Creamos sitios claros, sólidos y funcionales.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">Una buena web no es un extra: es la base para posicionarte y convertir.</p>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="service-card">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Producción Audiovisual</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Que se vea como tiene que verse.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">Realizamos jornadas de producción con equipo profesional: fotografías, videos, contenidos para redes y tomas con drone.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">Material que eleva la percepción de tu marca.</p>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="service-card">
+        <div style="width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3 style="font-size:1.00rem; font-weight:700; color:#fff; margin-bottom:10px; line-height:1.2;">Diseño y Edición</h3>
+        <p style="font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Donde todo cobra forma.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.78); line-height:1.72;">Transformamos el material en piezas de alto nivel: edición de video, diseño de carruseles, contenido visual para redes.</p>
+        <p style="font-size:0.82rem; font-weight:400; color:rgba(255,255,255,0.58); line-height:1.72; margin-top:8px;">Cuidamos cada detalle para que todo se vea coherente y profesional.</p>
       </div>
 
     </div>
@@ -729,7 +851,7 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- MANIFESTO (NEW SECTION)                                    -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section style="background: var(--bg-base); padding:96px 28px 84px; text-align:center; transition: background 0.35s ease; position:relative; overflow:hidden;">
+<section id="trabajo" style="background: var(--bg-base); padding:96px 28px 84px; text-align:center; transition: background 0.35s ease; position:relative; overflow:hidden;">
 
   <!-- Background decorative peach icon -->
   <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); opacity:0.03; pointer-events:none; z-index:0;">
@@ -737,7 +859,7 @@
   </div>
 
   <div style="position:relative; z-index:1; max-width:860px; margin:0 auto;">
-    <span class="section-label" style="margin-bottom:36px;">Nuestros aliados</span>
+    <span class="section-label" style="margin-bottom:36px;">Nuestro Trabajo</span>
 
     <blockquote style="margin:0; display:flex; flex-direction:column; gap:6px;">
       <span class="manifesto-line" style="opacity:0; animation: manifestoReveal 0.75s cubic-bezier(0.34,1.4,0.64,1) 0.1s forwards;">
@@ -758,30 +880,391 @@
 
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- LOGO / PEOPLE STRIP                                        -->
+<!-- LOGO CAROUSEL                                              -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<div style="background: var(--bg-surface); padding:44px 28px; border-top:1px solid var(--border-c); border-bottom:1px solid var(--border-c); transition: background 0.35s ease, border-color 0.35s ease;">
-  <div style="max-width:1180px; margin:0 auto;">
-    <p style="font-size:0.68rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-muted); text-align:center; margin-bottom:30px;">Personas que confiaron en Peach</p>
-    <div class="logo-strip-grid" style="display:grid; grid-template-columns:repeat(5,1fr); gap:24px; align-items:center;">
-      <div class="logo-strip-item">
-        <img src="https://placehold.co/140x48/EC6257/FFFFFF?text=BRAND+1" alt="Brand 1" style="max-height:42px; width:auto; border-radius:6px;" />
-      </div>
-      <div class="logo-strip-item">
-        <img src="https://placehold.co/140x48/FB8746/FFFFFF?text=BRAND+2" alt="Brand 2" style="max-height:42px; width:auto; border-radius:6px;" />
-      </div>
-      <div class="logo-strip-item" style="opacity:0.55; filter:none;">
-        <img src="brand_assets/Logo_Peach_Naranja.png" alt="Peach" style="max-height:52px; width:auto;" />
-      </div>
-      <div class="logo-strip-item">
-        <img src="https://placehold.co/140x48/545454/FFFFFF?text=BRAND+4" alt="Brand 4" style="max-height:42px; width:auto; border-radius:6px;" />
-      </div>
-      <div class="logo-strip-item">
-        <img src="https://placehold.co/140x48/EC6257/FFFFFF?text=BRAND+5" alt="Brand 5" style="max-height:42px; width:auto; border-radius:6px;" />
-      </div>
-    </div>
+<div id="logo-carousel-wrap" style="background: #111111; padding:36px 0; border-top:1px solid rgba(255,255,255,0.07); border-bottom:1px solid rgba(255,255,255,0.07); position:relative; overflow:hidden; cursor:grab;">
+
+  <p style="font-size:0.68rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.38); text-align:center; margin-bottom:20px;">Personas que confiaron en Peach</p>
+
+  <!-- Arrow buttons (hidden until hover) -->
+  <button id="carousel-prev" aria-label="Anterior" style="
+    position:absolute; left:20px; top:50%; transform:translateY(-50%);
+    z-index:10; width:44px; height:44px; border-radius:50%;
+    border:1.5px solid var(--border-c); background:var(--bg-elevated);
+    color:var(--text-body); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition: opacity 0.25s ease, border-color 0.2s, color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button id="carousel-next" aria-label="Siguiente" style="
+    position:absolute; right:20px; top:50%; transform:translateY(-50%);
+    z-index:10; width:44px; height:44px; border-radius:50%;
+    border:1.5px solid var(--border-c); background:var(--bg-elevated);
+    color:var(--text-body); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition: opacity 0.25s ease, border-color 0.2s, color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Fade edges -->
+  <div style="position:absolute; left:0; top:0; bottom:0; width:120px; background:linear-gradient(to right, #111111, transparent); z-index:5; pointer-events:none;"></div>
+  <div style="position:absolute; right:0; top:0; bottom:0; width:120px; background:linear-gradient(to left, #111111, transparent); z-index:5; pointer-events:none;"></div>
+
+  <!-- Track -->
+  <div id="logo-track" style="display:flex; align-items:center; gap:64px; will-change:transform;">
+    <!-- Logos injected by JS below -->
   </div>
 </div>
+
+<style>
+  .logo-item {
+    flex-shrink: 0;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    filter: grayscale(1) opacity(0.5);
+    transition: filter 0.30s ease, transform 0.30s cubic-bezier(0.34,1.56,0.64,1);
+    cursor: default;
+  }
+  .logo-item img {
+    height: 110px;
+    width: auto;
+    max-width: 280px;
+    display: block;
+    object-fit: contain;
+  }
+  .logo-item.hovered {
+    filter: grayscale(0) opacity(1)
+            drop-shadow(0 0 18px rgba(251,135,70,0.90))
+            drop-shadow(0 0 48px rgba(236,98,87,0.65))
+            drop-shadow(0 0 80px rgba(251,135,70,0.35));
+    transform: scale(1.10) translateY(-5px);
+  }
+  #carousel-prev:hover, #carousel-next:hover {
+    border-color: var(--coral) !important;
+    color: var(--coral) !important;
+    background: rgba(236,98,87,0.07) !important;
+  }
+  #carousel-prev:active { transform: translateY(-50%) scale(0.94) !important; }
+  #carousel-next:active { transform: translateY(-50%) scale(0.94) !important; }
+</style>
+
+<script>
+(function() {
+  /* ═══════════════════════════════════════════════════════
+     LOGOS: Agregá los logos de tus clientes acá.
+     Ponés los archivos en la carpeta /Logos_Clientes/
+     y agregás una entrada por cada uno:
+       { src: 'Logos_Clientes/nombre.png', alt: 'Empresa' }
+     ═══════════════════════════════════════════════════════ */
+  var CLIENTES = [
+    { src: 'Logos_Clientes/1.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/2.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/3.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/5.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/6.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/7.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/8.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/9.png',              alt: 'Cliente' },
+    { src: 'Logos_Clientes/10.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/11.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/12.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/14.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/16.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/17.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/18.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/20.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/21.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/22.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/23.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/24.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/25.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/26.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/27.png',             alt: 'Cliente' },
+    { src: 'Logos_Clientes/28.png', alt: 'Deleite' },
+    { src: 'Logos_Clientes/29.png', alt: 'Cliente' },
+  ];
+
+  var wrap  = document.getElementById('logo-carousel-wrap');
+  var track = document.getElementById('logo-track');
+  var prev  = document.getElementById('carousel-prev');
+  var next  = document.getElementById('carousel-next');
+
+  if (!CLIENTES.length) return;
+
+  /* ── Auto-crop: strips transparent padding from PNG logos ──────────────
+     Step 1 — scan at low-res (400px) to find non-transparent bounding box.
+     Step 2 — map those coords back to the ORIGINAL resolution.
+     Step 3 — draw the crop from the original image at 2× display height
+              (retina-sharp data URL, no upscaling blur).
+  ─────────────────────────────────────────────────────────────────────── */
+  var DISPLAY_H = 110; /* must match .logo-item img height in CSS */
+
+  function autoCrop(src, callback) {
+    var loader = new Image();
+    loader.onload = function() {
+      try {
+        var natW = loader.naturalWidth;
+        var natH = loader.naturalHeight;
+
+        /* ── Step 1: scan at reduced size for speed ── */
+        var SCAN = 400;
+        var scanRatio = Math.min(SCAN / natW, SCAN / natH);
+        var sw = Math.round(natW * scanRatio);
+        var sh = Math.round(natH * scanRatio);
+        var scanC = document.createElement('canvas');
+        scanC.width = sw; scanC.height = sh;
+        scanC.getContext('2d').drawImage(loader, 0, 0, sw, sh);
+        var data = scanC.getContext('2d').getImageData(0, 0, sw, sh).data;
+
+        var x0 = sw, y0 = sh, x1 = 0, y1 = 0;
+        for (var i = 0; i < data.length; i += 4) {
+          if (data[i + 3] > 10) {
+            var px = (i >> 2) % sw;
+            var py = Math.floor((i >> 2) / sw);
+            if (px < x0) x0 = px;
+            if (py < y0) y0 = py;
+            if (px > x1) x1 = px;
+            if (py > y1) y1 = py;
+          }
+        }
+        if (x1 <= x0 || y1 <= y0) { callback(null); return; }
+
+        /* ── Step 2: map bounding box to original resolution ── */
+        var pad = 12;
+        var ox0 = Math.max(0,    Math.floor((x0 - pad) / scanRatio));
+        var oy0 = Math.max(0,    Math.floor((y0 - pad) / scanRatio));
+        var ox1 = Math.min(natW, Math.ceil( (x1 + pad) / scanRatio));
+        var oy1 = Math.min(natH, Math.ceil( (y1 + pad) / scanRatio));
+        var cropW = ox1 - ox0;
+        var cropH = oy1 - oy0;
+
+        /* ── Step 3: render crop at 2× display size (retina-sharp) ── */
+        var scale  = (DISPLAY_H * 2) / cropH;
+        var outW   = Math.round(cropW * scale);
+        var outH   = DISPLAY_H * 2;
+        var out    = document.createElement('canvas');
+        out.width  = outW;
+        out.height = outH;
+        out.getContext('2d').drawImage(loader, ox0, oy0, cropW, cropH, 0, 0, outW, outH);
+
+        callback(out.toDataURL('image/png'));
+      } catch (e) { callback(null); }
+    };
+    loader.onerror = function() { callback(null); };
+    loader.src = src;
+  }
+
+  /* Track index → [img elements] for both original and duplicate */
+  var imgMap = {};
+
+  /* ── Build logo nodes ── */
+  function makeItem(c, idx) {
+    var d = document.createElement('div');
+    d.className = 'logo-item';
+    var img = document.createElement('img');
+    img.alt = c.alt; img.draggable = false; img.src = c.src;
+    if (!imgMap[idx]) imgMap[idx] = [];
+    imgMap[idx].push(img);
+    d.appendChild(img);
+    d.addEventListener('mouseenter', function() {
+      track.querySelectorAll('.logo-item').forEach(function(el) { el.classList.remove('hovered'); });
+      d.classList.add('hovered');
+    });
+    d.addEventListener('mouseleave', function() { d.classList.remove('hovered'); });
+    return d;
+  }
+
+  CLIENTES.forEach(function(c, i) { track.appendChild(makeItem(c, i)); });
+  CLIENTES.forEach(function(c, i) { track.appendChild(makeItem(c, i)); }); /* duplicate for seamless loop */
+
+  /* ── Kick off auto-crop for each unique logo ── */
+  var cropsDone = 0;
+  CLIENTES.forEach(function(c, i) {
+    autoCrop(c.src, function(dataUrl) {
+      cropsDone++;
+      if (dataUrl) {
+        imgMap[i].forEach(function(img) { img.src = dataUrl; });
+      }
+      /* Re-compute halfW after all crops settle so loop stays seamless */
+      if (cropsDone === CLIENTES.length) {
+        setTimeout(function() { halfW = track.scrollWidth / 2; x = 0; }, 100);
+      }
+    });
+  });
+
+  /* ── RAF-based scroll ── */
+  var x      = 0;
+  var halfW  = 0;
+  var paused = false;
+  var speed  = 50 / 60; /* 50 px/s — comfortable reading pace */
+
+  function init() { halfW = track.scrollWidth / 2; }
+
+  function tick() {
+    if (!paused && halfW > 0) {
+      x -= speed;
+      if (x <= -halfW) x += halfW;
+      track.style.transform = 'translateX(' + x + 'px)';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* Start scrolling after 1.5s (images + crops loading) */
+  setTimeout(function() { init(); requestAnimationFrame(tick); }, 1500);
+
+  /* ── Hover: pause auto-scroll, show arrows ── */
+  wrap.addEventListener('mouseenter', function() {
+    paused = true;
+    prev.style.opacity = '1'; prev.style.pointerEvents = 'auto';
+    next.style.opacity = '1'; next.style.pointerEvents = 'auto';
+  });
+  wrap.addEventListener('mouseleave', function() {
+    /* Don't resume yet if user is dragging — endDrag() handles that */
+    if (!isDragging) paused = false;
+    prev.style.opacity = '0'; prev.style.pointerEvents = 'none';
+    next.style.opacity = '0'; next.style.pointerEvents = 'none';
+    track.querySelectorAll('.logo-item').forEach(function(el) { el.classList.remove('hovered'); });
+  });
+
+  /* ── Arrows ── */
+  function nudge(dir) {
+    if (!halfW) return;
+    var itemW = halfW / CLIENTES.length;
+    x += dir * itemW;
+    if (x > 0)       x -= halfW;
+    if (x <= -halfW) x += halfW;
+    track.style.transform = 'translateX(' + x + 'px)';
+  }
+
+  prev.addEventListener('click', function(e) { e.stopPropagation(); nudge(1);  });
+  next.addEventListener('click', function(e) { e.stopPropagation(); nudge(-1); });
+
+  /* ── Drag to scroll (mouse + touch) ─────────────────────────────────────
+     Works on both desktop (click-drag) and mobile (finger swipe).
+     Determines if touch is horizontal before intercepting vertical scroll.
+  ─────────────────────────────────────────────────────────────────────── */
+  var dragStartClientX = null;
+  var dragStartX       = 0;
+  var dragStartClientY = 0;
+  var dragAxis         = null; /* 'h' | 'v' | null */
+  var isDragging       = false;
+
+  function startDrag(clientX, clientY) {
+    dragStartClientX = clientX;
+    dragStartClientY = clientY;
+    dragStartX       = x;
+    dragAxis         = null;
+    isDragging       = false;
+  }
+
+  function moveDrag(clientX, clientY) {
+    if (dragStartClientX === null) return;
+    var dx = clientX - dragStartClientX;
+    var dy = clientY - dragStartClientY;
+    /* Determine axis on first significant movement */
+    if (dragAxis === null && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+      dragAxis = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
+    }
+    if (dragAxis !== 'h') return;
+    isDragging = true;
+    paused = true;
+    wrap.style.cursor = 'grabbing';
+    x = dragStartX + dx;
+    /* Allow slight overscroll feel, then clamp */
+    if (x > halfW * 0.3) x = halfW * 0.3;
+    if (x < -halfW * 1.3) x = -halfW * 1.3;
+    track.style.transform = 'translateX(' + x + 'px)';
+  }
+
+  function endDrag() {
+    if (dragStartClientX === null) return;
+    dragStartClientX = null;
+    /* Snap x back into seamless loop range */
+    if (halfW > 0) {
+      while (x > 0)       x -= halfW;
+      while (x <= -halfW) x += halfW;
+    }
+    wrap.style.cursor = 'grab';
+    isDragging = false;
+    /* Only resume auto-scroll if mouse isn't hovering */
+    if (!isHovered) paused = false;
+  }
+
+  /* Track hover state separately so drag-end knows whether to resume */
+  var isHovered = false;
+  wrap.addEventListener('mouseenter', function() { isHovered = true; });
+  wrap.addEventListener('mouseleave', function() {
+    isHovered = false;
+    if (!isDragging) paused = false;
+  });
+
+  /* Mouse */
+  wrap.addEventListener('mousedown',  function(e) { startDrag(e.clientX, e.clientY); });
+  document.addEventListener('mousemove', function(e) { moveDrag(e.clientX, e.clientY); });
+  document.addEventListener('mouseup',   endDrag);
+
+  /* Touch */
+  wrap.addEventListener('touchstart', function(e) {
+    startDrag(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+  wrap.addEventListener('touchmove', function(e) {
+    var dx = Math.abs(e.touches[0].clientX - dragStartClientX);
+    var dy = Math.abs(e.touches[0].clientY - dragStartClientY);
+    if (dragAxis === 'h' || (dragAxis === null && dx > dy)) {
+      e.preventDefault(); /* prevent page scroll only when scrolling horizontally */
+    }
+    moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: false });
+  wrap.addEventListener('touchend', endDrag);
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- HAMBURGER MENU JS                                          -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  var btn  = document.getElementById('hamburger-btn');
+  var menu = document.getElementById('mobile-menu');
+  if (!btn || !menu) return;
+
+  function open() {
+    menu.classList.add('open');
+    btn.classList.add('is-open');
+    btn.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+  }
+  function close() {
+    menu.classList.remove('open');
+    btn.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+  }
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    menu.classList.contains('open') ? close() : open();
+  });
+
+  /* Close on any nav link click */
+  menu.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', close);
+  });
+
+  /* Close on outside tap/click */
+  document.addEventListener('click', function(e) {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) close();
+  });
+
+  /* Close on Escape */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') close();
+  });
+})();
+</script>
 
 
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -801,11 +1284,10 @@
       ¿Querés algo distinto,<br/>pero con criterio?
     </h2>
     <p style="font-size:1.04rem; font-weight:400; color:rgba(255,255,255,0.82); line-height:1.74; margin-bottom:38px;">
-      Contanos tu proyecto y encontremos juntos la mejor forma de comunicarlo.
+      Contános tu proyecto y encontremos juntos la mejor forma de comunicarlo.
     </p>
     <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
-      <a href="mailto:hola@peachstudio.com" class="btn-primary">Escribinos</a>
-      <a href="#" class="btn-outline">Ver portfolio</a>
+      <a href="/contacto.html" class="btn-primary">Escribinos</a>
     </div>
   </div>
 </section>
@@ -829,22 +1311,21 @@
 
     <!-- Center: nav -->
     <nav style="display:flex; gap:22px; align-items:center; padding-top:2px;">
-      <a href="#"          class="nav-link-inv">Inicio</a>
-      <a href="#nosotros"  class="nav-link-inv">Nosotros</a>
-      <a href="#servicios" class="nav-link-inv">Servicios</a>
-      <a href="#blog"      class="nav-link-inv">Blog</a>
+      <a href="#"           class="nav-link-inv">Inicio</a>
+      <a href="#nosotros"   class="nav-link-inv">Nosotros</a>
+      <a href="#servicios"  class="nav-link-inv">Servicios</a>
+      <a href="#trabajo"    class="nav-link-inv">Nuestro Trabajo</a>
+      <!-- TIENDA: Para re-habilitar, descomentá esta línea -->
+      <!-- <a href="/tienda.html" class="nav-link-inv">Tienda</a> -->
     </nav>
 
     <!-- Right: social -->
     <div style="display:flex; gap:10px; justify-content:flex-end; align-items:center; padding-top:2px;">
-      <a href="#" class="social-icon-inv" aria-label="LinkedIn">
+      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon-inv" aria-label="LinkedIn">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
-      <a href="#" class="social-icon-inv" aria-label="Instagram">
+      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon-inv" aria-label="Instagram">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-      </a>
-      <a href="#" class="social-icon-inv" aria-label="YouTube">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
     </div>
   </div>

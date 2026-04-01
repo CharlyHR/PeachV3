@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto — Peach Studio</title>
+  <!-- FOUC fix: set dark class before CSS renders to prevent flash -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('peach-theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+  <style>
+    /* ── Local Montserrat @font-face — full set ── */
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Thin.ttf') format('truetype'); font-weight:100; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ThinItalic.ttf') format('truetype'); font-weight:100; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraLight.ttf') format('truetype'); font-weight:200; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraLightItalic.ttf') format('truetype'); font-weight:200; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Light.ttf') format('truetype'); font-weight:300; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-LightItalic.ttf') format('truetype'); font-weight:300; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Regular.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Italic.ttf') format('truetype'); font-weight:400; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Medium.ttf') format('truetype'); font-weight:500; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-MediumItalic.ttf') format('truetype'); font-weight:500; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-SemiBold.ttf') format('truetype'); font-weight:600; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-SemiBoldItalic.ttf') format('truetype'); font-weight:600; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Bold.ttf') format('truetype'); font-weight:700; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-BoldItalic.ttf') format('truetype'); font-weight:700; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraBold.ttf') format('truetype'); font-weight:800; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-ExtraBoldItalic.ttf') format('truetype'); font-weight:800; font-style:italic; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-Black.ttf') format('truetype'); font-weight:900; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Montserrat'; src:url('./fonts/Montserrat-BlackItalic.ttf') format('truetype'); font-weight:900; font-style:italic; font-display:swap; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ── CSS Variables (Light Mode) ── */
+    :root {
+      --coral:          #EC6257;
+      --orange:         #FB8746;
+      --charcoal:       #545454;
+      --black:          #000000;
+      --bg-base:        #F1F1F1;
+      --bg-surface:     #FFFFFF;
+      --bg-elevated:    #FFFFFF;
+      --text-h:         #000000;
+      --text-body:      #545454;
+      --text-muted:     #888888;
+      --border-c:       rgba(0,0,0,0.08);
+      --nav-bg:         rgba(255,255,255,0.96);
+      --nav-shadow:     0 1px 0 rgba(0,0,0,0.08);
+      --card-bg:        #FFFFFF;
+      --card-border:    rgba(0,0,0,0.08);
+      --label-bg:       rgba(236,98,87,0.10);
+      --shadow-card:    0 24px 56px rgba(0,0,0,0.10), 0 4px 12px rgba(236,98,87,0.08);
+    }
+
+    /* ── CSS Variables (Dark Mode) ── */
+    html.dark {
+      --coral:          #D94F44;
+      --orange:         #E07035;
+      --bg-base:        #0A0A0A;
+      --bg-surface:     #111111;
+      --bg-elevated:    #1A1A1A;
+      --text-h:         #EDEDED;
+      --text-body:      #C8C8C8;
+      --text-muted:     #5E5E5E;
+      --border-c:       rgba(255,255,255,0.07);
+      --nav-bg:         rgba(8,8,8,0.97);
+      --nav-shadow:     0 1px 0 rgba(255,255,255,0.05);
+      --card-bg:        rgba(255,255,255,0.04);
+      --card-border:    rgba(255,255,255,0.09);
+      --label-bg:       rgba(217,79,68,0.18);
+      --shadow-card:    0 24px 56px rgba(0,0,0,0.55), 0 4px 12px rgba(217,79,68,0.14);
+    }
+
+    html, body, * {
+      font-family: 'Montserrat', sans-serif !important;
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-body);
+      overflow-x: hidden;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+
+    /* ── Noise texture ── */
+    .noise::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Hero gradient ── */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse at 82% 18%, rgba(251,135,70,0.60) 0%, transparent 52%),
+        radial-gradient(ellipse at 8%  80%, rgba(236,98,87,0.65)  0%, transparent 52%),
+        radial-gradient(ellipse at 50% 50%, rgba(251,135,70,0.40) 0%, transparent 68%),
+        linear-gradient(138deg, #FB8746 0%, #EC6257 52%, #d44d42 100%);
+    }
+
+    /* ── Keyframes ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .anim-fade-up  { opacity: 0; animation: fadeUp  0.70s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .anim-fade-in  { opacity: 0; animation: fadeIn  0.60s ease forwards; }
+
+    .delay-100 { animation-delay: 0.10s; }
+    .delay-200 { animation-delay: 0.20s; }
+    .delay-300 { animation-delay: 0.30s; }
+    .delay-400 { animation-delay: 0.40s; }
+
+    /* ── Nav link ── */
+    .nav-link {
+      position: relative;
+      color: var(--text-body);
+      font-size: 0.80rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--coral);
+      transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .nav-link:hover { color: var(--coral); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 4px; border-radius: 3px; }
+
+    /* ── Nav link inverted ── */
+    .nav-link-inv {
+      position: relative;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.80rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+    .nav-link-inv::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: rgba(255,255,255,0.70);
+      transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .nav-link-inv:hover { color: #fff; }
+    .nav-link-inv:hover::after { width: 100%; }
+
+    /* ── Social icon ── */
+    .social-icon {
+      width: 34px; height: 34px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--border-c);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .social-icon:hover { border-color: var(--coral); color: var(--coral); background: rgba(236,98,87,0.08); transform: translateY(-3px); }
+    .social-icon:active { transform: translateY(0); }
+    .social-icon:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 3px; border-radius: 50%; }
+
+    .social-icon-inv {
+      width: 34px; height: 34px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.60);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .social-icon-inv:hover { border-color: rgba(255,255,255,0.75); color: #fff; background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+    .social-icon-inv:active { transform: translateY(0); }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1.5px solid var(--border-c);
+      background: var(--card-bg);
+      color: var(--text-body);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--coral); color: var(--coral); background: rgba(236,98,87,0.07); transform: rotate(18deg) scale(1.08); }
+    .theme-toggle:active { transform: scale(0.94); }
+    .theme-toggle:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 3px; border-radius: 50%; }
+
+    /* ── Nav hide on mobile ── */
+    @media (max-width: 720px) {
+      .nav-links-hide { display: none !important; }
+    }
+
+    /* ── Contact form styles ── */
+    .contact-section {
+      background: var(--bg-base);
+      padding: 80px 28px 100px;
+    }
+
+    .contact-card {
+      max-width: 620px;
+      margin: 0 auto;
+      background: var(--bg-surface);
+      border-radius: 24px;
+      padding: 52px 48px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--card-border);
+    }
+
+    @media (max-width: 640px) {
+      .contact-card { padding: 36px 24px; }
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border-c);
+      background: var(--bg-base);
+      color: var(--text-h);
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif !important;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--coral);
+      box-shadow: 0 0 0 3px rgba(236,98,87,0.14);
+      background: var(--bg-surface);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 148px;
+      line-height: 1.65;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 16px 32px;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, #FB8746 0%, #EC6257 60%, #d44d42 100%);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif !important;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(236,98,87,0.38), 0 2px 6px rgba(0,0,0,0.10);
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .form-submit:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 14px 38px rgba(236,98,87,0.48), 0 4px 10px rgba(0,0,0,0.12); }
+    .form-submit:active { transform: translateY(0) scale(0.98); }
+    .form-submit:focus-visible { outline: 2px solid rgba(236,98,87,0.6); outline-offset: 4px; }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── Success / error states ── */
+    .form-feedback {
+      display: none;
+      margin-top: 20px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .form-feedback.success {
+      background: rgba(39,174,96,0.10);
+      border: 1px solid rgba(39,174,96,0.30);
+      color: #1e8a4a;
+    }
+    html.dark .form-feedback.success {
+      background: rgba(39,174,96,0.12);
+      color: #4ece7e;
+    }
+    .form-feedback.error {
+      background: rgba(236,98,87,0.10);
+      border: 1px solid rgba(236,98,87,0.30);
+      color: var(--coral);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- NAV — identical structure to index.html                    -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<header style="background: var(--nav-bg); position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow: var(--nav-shadow); transition: background 0.35s ease, box-shadow 0.35s ease;">
+  <nav style="max-width:1180px; margin:0 auto; padding:0 28px; height:96px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+
+    <!-- Logo -->
+    <a href="/" style="flex-shrink:0; display:flex; align-items:center; gap:12px; text-decoration:none; height:80px;" aria-label="Peach Studio — Inicio">
+      <img id="nav-icon" src="brand_assets/Logo_Peach_Naranja.png" alt="" aria-hidden="true"
+           style="height:72px; width:auto; display:block;" />
+      <img id="nav-wordmark" src="brand_assets/Logo_Palabra_Peach_Negro.png" alt="Peach"
+           style="height:80px; width:auto; display:block; object-fit:contain; transition: opacity 0.2s ease;" />
+    </a>
+
+    <!-- Nav links (desktop) -->
+    <div class="nav-links-hide" style="display:flex; align-items:center; gap:28px; flex:1; justify-content:center;">
+      <a href="/"              class="nav-link">Inicio</a>
+      <a href="/#nosotros"     class="nav-link">Nosotros</a>
+      <a href="/#servicios"    class="nav-link">Servicios</a>
+      <a href="/#trabajo"      class="nav-link">Nuestro Trabajo</a>
+      <a href="/contacto.html" class="nav-link" aria-current="page" style="color:var(--coral);">Contacto</a>
+    </div>
+
+    <!-- Right side: social + theme toggle -->
+    <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar a modo oscuro" type="button"></button>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- HERO — gradient header igual al de index.html             -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="hero-bg noise" style="position:relative; padding: 96px 28px 80px; overflow:hidden; text-align:center;">
+
+  <!-- Decorative glows -->
+  <div style="position:absolute; inset:0; pointer-events:none; z-index:0;">
+    <div style="position:absolute; top:-80px; right:-80px; width:520px; height:520px; background:radial-gradient(circle, rgba(255,210,110,0.18) 0%, transparent 68%); border-radius:50%;"></div>
+    <div style="position:absolute; bottom:-80px; left:-80px; width:440px; height:440px; background:radial-gradient(circle, rgba(236,98,87,0.20) 0%, transparent 68%); border-radius:50%;"></div>
+  </div>
+
+  <div style="position:relative; z-index:2; max-width:640px; margin:0 auto;">
+
+    <div class="anim-fade-in" style="margin-bottom:20px;">
+      <span style="display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.15em;
+                   text-transform:uppercase; color:rgba(255,255,255,0.88);
+                   padding:5px 14px; border-radius:50px;
+                   background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.28);">
+        Hablemos
+      </span>
+    </div>
+
+    <h1 class="anim-fade-up delay-100"
+        style="font-size:clamp(2rem,5vw,3.2rem); font-weight:900; color:#fff;
+               line-height:1.12; letter-spacing:-0.03em; margin-bottom:18px;">
+      Contáctanos
+    </h1>
+
+    <p class="anim-fade-up delay-200"
+       style="font-size:1.02rem; font-weight:500; color:rgba(255,255,255,0.85);
+              line-height:1.65; margin-bottom:0;">
+      Contanos en qué estás trabajando y nosotros te decimos cómo podemos ayudarte.
+    </p>
+
+  </div>
+
+  <!-- Bottom wave -->
+  <div style="position:absolute; bottom:0; left:0; right:0; line-height:0; z-index:4;">
+    <svg viewBox="0 0 1440 48" preserveAspectRatio="none" style="width:100%; height:48px; display:block;">
+      <path id="wave-contact-bottom" d="M0,48 C360,0 1080,0 1440,48 L1440,48 L0,48 Z" fill="#F1F1F1"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- CONTACT FORM SECTION                                       -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="contact-section">
+  <div class="contact-card">
+
+    <div style="margin-bottom:36px; text-align:center;">
+      <h2 style="font-size:1.5rem; font-weight:800; color:var(--text-h); letter-spacing:-0.02em; margin-bottom:8px;">
+        Mandanos un mensaje
+      </h2>
+      <p style="font-size:0.90rem; color:var(--text-muted); font-weight:400; line-height:1.60;">
+        Completá el formulario y te respondemos a la brevedad.
+      </p>
+    </div>
+
+    <!--
+    ══════════════════════════════════════════════════════════════
+    FORMSPREE — CÓMO CONFIGURARLO (pasos para activar el formulario)
+    ══════════════════════════════════════════════════════════════
+    1. Andá a https://formspree.io y creá una cuenta gratuita.
+    2. Creá un nuevo formulario (New Form) y elegí un nombre (ej: "Contacto Peach Studio").
+    3. Formspree te da una URL como: https://formspree.io/f/xxxxxxxx
+    4. Reemplazá "REEMPLAZAR_CON_TU_ENDPOINT" en el atributo `action` de abajo con esa URL.
+    5. Configurá el email destino en el dashboard de Formspree (Settings → Email).
+       El email de destino NO va en el código — se gestiona desde el panel de Formspree.
+    6. (Opcional) Podés activar el "reCAPTCHA" y notificaciones desde ese mismo panel.
+    ══════════════════════════════════════════════════════════════
+    -->
+    <form
+      id="contact-form"
+      action="https://formspree.io/f/REEMPLAZAR_CON_TU_ENDPOINT"
+      method="POST"
+    >
+      <!-- Campo oculto para que Formspree identifique el asunto -->
+      <input type="hidden" name="_subject" value="Nuevo mensaje desde Peach Studio" />
+      <!-- Redirect después de enviar (opcional — se puede dejar vacío para quedarse en la misma página) -->
+      <input type="hidden" name="_next" value="" />
+
+      <div class="form-group">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          class="form-input"
+          placeholder="Tu nombre completo"
+          required
+          autocomplete="name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-input"
+          placeholder="tu@email.com"
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group" style="margin-bottom:32px;">
+        <label for="mensaje" class="form-label">Mensaje</label>
+        <textarea
+          id="mensaje"
+          name="mensaje"
+          class="form-textarea"
+          placeholder="Contanos en qué estás trabajando, qué necesitás o cualquier pregunta que tengas..."
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="form-submit" id="submit-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        Enviar mensaje
+      </button>
+
+      <div id="form-success" class="form-feedback success">
+        ¡Mensaje enviado! Te respondemos a la brevedad.
+      </div>
+      <div id="form-error" class="form-feedback error">
+        Hubo un error al enviar. Por favor, intentá de nuevo o escribinos directamente.
+      </div>
+    </form>
+
+  </div>
+
+  <!-- Info adicional -->
+  <div style="max-width:620px; margin:40px auto 0; display:flex; justify-content:center; gap:40px; flex-wrap:wrap; text-align:center;">
+    <div>
+      <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Instagram</p>
+      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer"
+         style="font-size:0.90rem; font-weight:600; color:var(--coral); text-decoration:none;">@somospeachok</a>
+    </div>
+    <div>
+      <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">LinkedIn</p>
+      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer"
+         style="font-size:0.90rem; font-weight:600; color:var(--coral); text-decoration:none;">somospeachok</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- FOOTER — identical structure to index.html                 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<footer style="background:#111111; padding:56px 28px 40px; border-top:1px solid rgba(255,255,255,0.06);">
+  <div class="footer-grid" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:start; gap:24px;">
+
+    <!-- Left: logo + tagline -->
+    <div>
+      <img src="brand_assets/Logo_Palabra_Peach_Blanco.png" alt="Peach Studio"
+           style="height:110px; width:auto; display:block; object-fit:contain;"
+           onerror="this.outerHTML='<span style=\'font-family:Montserrat,sans-serif;font-weight:900;font-size:1.3rem;color:#fff;letter-spacing:-0.03em;\'>peach</span>';" />
+      <p style="font-size:0.78rem; font-weight:400; color:rgba(255,255,255,0.36); margin-top:14px; line-height:1.60;">
+        Estudio de comunicación creativa.<br/>Buenos Aires, Argentina.
+      </p>
+    </div>
+
+    <!-- Center: nav -->
+    <nav style="display:flex; gap:22px; align-items:center; padding-top:2px;">
+      <a href="/"              class="nav-link-inv">Inicio</a>
+      <a href="/#nosotros"     class="nav-link-inv">Nosotros</a>
+      <a href="/#servicios"    class="nav-link-inv">Servicios</a>
+      <a href="/#trabajo"      class="nav-link-inv">Nuestro Trabajo</a>
+    </nav>
+
+    <!-- Right: social -->
+    <div style="display:flex; gap:10px; justify-content:flex-end; align-items:center; padding-top:2px;">
+      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon-inv" aria-label="LinkedIn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon-inv" aria-label="Instagram">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Divider + copyright -->
+  <div style="max-width:1180px; margin:36px auto 0; border-top:1px solid rgba(255,255,255,0.07); padding-top:26px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <p style="font-size:0.75rem; font-weight:400; color:rgba(255,255,255,0.28);">
+      &copy; 2026 Peach Studio. Todos los derechos reservados.
+    </p>
+    <p style="font-size:0.75rem; font-weight:400; color:rgba(255,255,255,0.28);">
+      Hecho con criterio (y con mucho durazno).
+    </p>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- THEME TOGGLE JS                                            -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<script>
+  (function() {
+    var html        = document.documentElement;
+    var toggleBtn   = document.getElementById('theme-toggle');
+    var navWordmark = document.getElementById('nav-wordmark');
+    var waveBottom  = document.getElementById('wave-contact-bottom');
+
+    var MOON_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    var SUN_SVG  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+
+    function updateUI() {
+      var isDark = html.classList.contains('dark');
+      toggleBtn.innerHTML = isDark ? SUN_SVG : MOON_SVG;
+      toggleBtn.setAttribute('aria-label', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+      navWordmark.src = isDark
+        ? 'brand_assets/Logo_Palabra_Peach_Blanco.png'
+        : 'brand_assets/Logo_Palabra_Peach_Negro.png';
+      if (waveBottom) waveBottom.setAttribute('fill', isDark ? '#0A0A0A' : '#F1F1F1');
+    }
+
+    toggleBtn.addEventListener('click', function() {
+      html.classList.toggle('dark');
+      localStorage.setItem('peach-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      updateUI();
+    });
+
+    updateUI();
+  })();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- CONTACT FORM — AJAX SUBMIT (sin recargar la página)       -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<script>
+  (function() {
+    var form       = document.getElementById('contact-form');
+    var submitBtn  = document.getElementById('submit-btn');
+    var successMsg = document.getElementById('form-success');
+    var errorMsg   = document.getElementById('form-error');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Guard: don't submit if endpoint is still placeholder
+      var action = form.getAttribute('action');
+      if (action.includes('REEMPLAZAR_CON_TU_ENDPOINT')) {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'El formulario aún no está configurado. Revisá las instrucciones en el código.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+      successMsg.style.display = 'none';
+      errorMsg.style.display   = 'none';
+
+      try {
+        var data = new FormData(form);
+        var res  = await fetch(action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' },
+        });
+
+        if (res.ok) {
+          form.reset();
+          successMsg.style.display = 'block';
+          submitBtn.textContent = 'Mensaje enviado';
+        } else {
+          throw new Error('server error');
+        }
+      } catch (_) {
+        errorMsg.style.display = 'block';
+        submitBtn.disabled    = false;
+        submitBtn.innerHTML   = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar mensaje';
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
