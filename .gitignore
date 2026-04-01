@@ -1,2 +1,7 @@
 node_modules/
 temporary screenshots/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
