@@ -159,24 +159,33 @@
 
     /* ── Logo grid items ── */
     .client-card {
-      background: #1a1a1a;
-      border: 1px solid rgba(255,255,255,0.07);
+      background: #181818;
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 32px 24px;
       min-height: 160px;
+      max-width: 220px;
+      margin: 0 auto;
+      width: 100%;
       cursor: default;
       transition: transform 0.30s cubic-bezier(0.34,1.56,0.64,1),
                   background 0.30s ease,
                   border-color 0.30s ease,
                   filter 0.30s ease;
     }
+    /* In light mode keep cards dark so white logos stay visible */
+    html:not(.dark) .client-card {
+      background: #1e1e1e;
+      border-color: rgba(0,0,0,0.18);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.14);
+    }
     .client-card:hover {
       transform: translateY(-6px) scale(1.03);
-      background: #222;
-      border-color: rgba(251,135,70,0.35);
+      background: #252525;
+      border-color: rgba(251,135,70,0.40);
       filter: drop-shadow(0 0 18px rgba(251,135,70,0.55))
               drop-shadow(0 0 48px rgba(236,98,87,0.35));
     }
@@ -264,68 +273,81 @@
 </header>
 
 <!-- HERO -->
-<section style="background:#111111; padding:80px 28px 64px; border-bottom:1px solid rgba(255,255,255,0.07);">
-  <div style="max-width:780px; margin:0 auto; text-align:center;">
+<section style="background:var(--bg-base); padding:80px 28px 64px; border-bottom:1px solid var(--border-c); transition:background 0.35s ease, border-color 0.35s ease; position:relative; overflow:hidden;">
+  <!-- Orange glow background -->
+  <div style="position:absolute; top:-120px; left:50%; transform:translateX(-50%); width:600px; height:340px; background:radial-gradient(ellipse, rgba(251,135,70,0.13) 0%, transparent 70%); pointer-events:none;"></div>
+  <div style="position:relative; max-width:780px; margin:0 auto; text-align:center;">
     <div style="display:inline-block; font-size:0.66rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
-                color:rgba(255,255,255,0.55); padding:5px 14px; border-radius:50px;
-                background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); margin-bottom:24px;">
+                color:var(--orange); padding:5px 16px; border-radius:50px;
+                background:rgba(251,135,70,0.10); border:1px solid rgba(251,135,70,0.32); margin-bottom:24px;">
       Nuestros Clientes
     </div>
-    <h1 style="font-size:clamp(2rem, 4.5vw, 3.6rem); font-weight:900; color:#fff;
-               line-height:1.08; letter-spacing:-0.035em; margin-bottom:20px;">
-      Personas que confiaron<br/>en Peach
+    <h1 style="font-size:clamp(2rem, 4.5vw, 3.6rem); font-weight:900; color:var(--text-h);
+               line-height:1.08; letter-spacing:-0.035em; margin-bottom:20px; transition:color 0.35s ease;">
+      Personas que confiaron<br/>en <span style="color:var(--coral);">Peach</span>
     </h1>
-    <p style="font-size:1rem; font-weight:400; color:rgba(255,255,255,0.55); line-height:1.78; max-width:540px; margin:0 auto;">
+    <p style="font-size:1rem; font-weight:400; color:var(--text-muted); line-height:1.78; max-width:540px; margin:0 auto; transition:color 0.35s ease;">
       Marcas reales. Proyectos con criterio. Resultados que se ven.
     </p>
+    <!-- Orange accent line -->
+    <div style="margin:28px auto 0; width:48px; height:3px; border-radius:2px; background:linear-gradient(90deg, var(--coral), var(--orange));"></div>
   </div>
 </section>
 
 <!-- LOGO GRID -->
-<section style="background:#111111; padding:56px 28px 96px;">
-  <div id="clients-grid" style="max-width:1280px; margin:0 auto;
-       display:grid; grid-template-columns:repeat(5,1fr); gap:16px;">
-    <!-- injected by JS -->
+<section style="background:#111111; padding:56px 0 96px;">
+  <!-- inner wrapper: flex column centrado -->
+  <div style="display:flex; flex-direction:column; align-items:center; padding:0 28px;">
+    <!-- Section label -->
+    <div style="text-align:center; margin-bottom:36px; width:100%;">
+      <span style="font-size:0.68rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--orange);">
+        — Marcas que confiaron en nosotros —
+      </span>
+    </div>
+    <div id="clients-grid" style="width:100%; max-width:1160px;
+         display:grid; grid-template-columns:repeat(5,1fr); gap:16px; justify-content:center;">
+      <!-- injected by JS -->
+    </div>
+    <p id="loading-msg" style="text-align:center; color:rgba(255,255,255,0.35); font-size:0.82rem; margin-top:32px;">
+      Cargando logos…
+    </p>
   </div>
-  <p id="loading-msg" style="text-align:center; color:rgba(255,255,255,0.28); font-size:0.82rem; margin-top:32px;">
-    Cargando logos…
-  </p>
 </section>
 
 <style>
-  @media (max-width: 1024px) { #clients-grid { grid-template-columns: repeat(4,1fr) !important; } }
+  @media (max-width: 1024px) { #clients-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important; } }
   @media (max-width: 768px)  { #clients-grid { grid-template-columns: repeat(3,1fr) !important; } }
-  @media (max-width: 480px)  { #clients-grid { grid-template-columns: repeat(2,1fr) !important; } }
+  @media (max-width: 480px)  { #clients-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px; } }
 </style>
 
 <!-- FOOTER -->
-<footer style="background:#0a0a0a; padding:56px 28px 40px; border-top:1px solid rgba(255,255,255,0.06);">
+<footer style="background:var(--bg-base); padding:56px 28px 40px; border-top:1px solid var(--border-c); transition:background 0.35s ease;">
   <div class="footer-grid" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:start; gap:24px;">
     <div>
       <img src="brand_assets/Logo_Peach_Naranja.png" alt="Peach Studio"
            style="height:90px; width:auto; display:block; object-fit:contain;" />
-      <p style="font-size:0.78rem; font-weight:400; color:rgba(255,255,255,0.36); margin-top:14px; line-height:1.60;">
+      <p style="font-size:0.78rem; font-weight:400; color:var(--text-muted); margin-top:14px; line-height:1.60; transition:color 0.35s ease;">
         Estudio de comunicación creativa.<br/>Buenos Aires, Argentina.
       </p>
     </div>
     <nav style="display:flex; gap:22px; align-items:center; padding-top:2px;">
-      <a href="index.html"           class="nav-link-inv">Inicio</a>
-      <a href="index.html#nosotros"  class="nav-link-inv">Nosotros</a>
-      <a href="index.html#servicios" class="nav-link-inv">Servicios</a>
-      <a href="index.html#trabajo"   class="nav-link-inv">Nuestro Trabajo</a>
+      <a href="index.html"           class="nav-link">Inicio</a>
+      <a href="index.html#nosotros"  class="nav-link">Nosotros</a>
+      <a href="index.html#servicios" class="nav-link">Servicios</a>
+      <a href="index.html#trabajo"   class="nav-link">Nuestro Trabajo</a>
     </nav>
     <div style="display:flex; gap:10px; justify-content:flex-end; align-items:center; padding-top:2px;">
-      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon-inv" aria-label="LinkedIn">
+      <a href="https://www.linkedin.com/company/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
-      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon-inv" aria-label="Instagram">
+      <a href="https://www.instagram.com/somospeachok/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
       </a>
     </div>
   </div>
-  <div style="max-width:1180px; margin:36px auto 0; border-top:1px solid rgba(255,255,255,0.07); padding-top:26px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-    <p style="font-size:0.75rem; color:rgba(255,255,255,0.28);">&copy; 2026 Peach Studio. Todos los derechos reservados.</p>
-    <p style="font-size:0.75rem; color:rgba(255,255,255,0.28);">Hecho con criterio (y con mucho durazno).</p>
+  <div style="max-width:1180px; margin:36px auto 0; border-top:1px solid var(--border-c); padding-top:26px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; transition:border-color 0.35s ease;">
+    <p style="font-size:0.75rem; color:var(--text-muted); transition:color 0.35s ease;">&copy; 2026 Peach Studio. Todos los derechos reservados.</p>
+    <p style="font-size:0.75rem; color:var(--text-muted); transition:color 0.35s ease;">Hecho con criterio (y con mucho durazno).</p>
   </div>
 </footer>
 
