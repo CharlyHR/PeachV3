@@ -409,6 +409,7 @@
     @media (max-width: 900px) {
       .about-grid  { grid-template-columns: 1fr !important; }
       .footer-grid { grid-template-columns: 1fr !important; text-align: center; }
+      .equipo-img  { height: auto !important; object-fit: contain !important; object-position: center center !important; }
       /* V4 hero: stack peach above text on mobile */
       .hero-grid {
         grid-template-columns: 1fr !important;
@@ -419,7 +420,10 @@
         padding: 48px 20px 8px !important;
       }
       .hero-peach-col .float-peach {
-        width: min(320px, 72vw) !important;
+        position: relative !important;
+        right: auto !important;
+        width: min(280px, 68vw) !important;
+        margin: 0 auto;
       }
       .hero-text-col {
         padding: 8px 24px 80px !important;
@@ -692,6 +696,7 @@
         <img
           src="imagenes/equipo.jpeg"
           alt="El equipo de Peach Studio"
+          class="equipo-img"
           style="width:100%; height:440px; object-fit:cover; object-position:center 18%; display:block;"
         />
         <div style="position:absolute; inset:0; background:linear-gradient(138deg, rgba(251,135,70,0.08) 0%, rgba(236,98,87,0.13) 100%); mix-blend-mode:multiply;"></div>

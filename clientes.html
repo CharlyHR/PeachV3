@@ -170,6 +170,7 @@
       max-width: 220px;
       margin: 0 auto;
       width: 100%;
+      overflow: hidden;
       cursor: default;
       transition: transform 0.30s cubic-bezier(0.34,1.56,0.64,1),
                   background 0.30s ease,
@@ -190,9 +191,9 @@
               drop-shadow(0 0 48px rgba(236,98,87,0.35));
     }
     .client-card img {
-      height: 100px;
+      height: 80px;
       width: auto;
-      max-width: 220px;
+      max-width: 100%;
       display: block;
       object-fit: contain;
       transition: filter 0.30s ease, transform 0.30s cubic-bezier(0.34,1.56,0.64,1);
@@ -317,7 +318,9 @@
 <style>
   @media (max-width: 1024px) { #clients-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important; } }
   @media (max-width: 768px)  { #clients-grid { grid-template-columns: repeat(3,1fr) !important; } }
-  @media (max-width: 480px)  { #clients-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px; } }
+  @media (max-width: 480px)  { #clients-grid { grid-template-columns: repeat(2,1fr) !important; gap: 10px; } }
+  @media (max-width: 480px)  { .client-card { padding: 20px 12px !important; min-height: 110px !important; max-width: none !important; border-radius: 12px !important; } }
+  @media (max-width: 480px)  { .client-card img { height: 60px !important; } }
 </style>
 
 <!-- FOOTER -->
