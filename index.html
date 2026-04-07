@@ -8,7 +8,7 @@
   <script>
     (function() {
       var saved = localStorage.getItem('peach-theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      if (saved !== 'light') {
         document.documentElement.classList.add('dark');
       }
     })();
@@ -514,14 +514,12 @@
 <!-- NAV                                                        -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <header style="background: var(--nav-bg); position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow: var(--nav-shadow); transition: background 0.35s ease, box-shadow 0.35s ease;">
-  <nav style="max-width:1180px; margin:0 auto; padding:0 28px; height:96px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+  <nav style="max-width:1180px; margin:0 auto; padding:0 28px 0 16px; height:96px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
 
-    <!-- Logo: icon + wordmark -->
-    <a href="#" style="flex-shrink:0; display:flex; align-items:center; gap:12px; text-decoration:none; height:80px;" aria-label="Peach Studio — Inicio">
-      <img id="nav-icon" src="brand_assets/Logo_Peach_Naranja.png" alt="" aria-hidden="true"
-           style="height:72px; width:auto; display:block;" />
+    <!-- Logo: wordmark only -->
+    <a href="#" style="flex-shrink:0; display:flex; align-items:center; text-decoration:none; height:80px;" aria-label="Peach Studio — Inicio">
       <img id="nav-wordmark" src="brand_assets/Logo_Palabra_Peach_Negro.png" alt="Peach"
-           style="height:80px; width:auto; display:block; object-fit:contain; transition: opacity 0.2s ease;" />
+           style="height:86px; width:auto; display:block; object-fit:contain; transition: opacity 0.2s ease;" />
     </a>
 
     <!-- Nav links (desktop) -->
@@ -639,7 +637,7 @@
     <!-- RIGHT: Peach mascot -->
     <div class="hero-peach-col anim-scale-in delay-100"
          style="display:flex; align-items:center; justify-content:center; padding:40px 0 80px; overflow:visible;">
-      <div id="peach-dancer" class="float-peach" style="width:min(816px, 88%); position:relative;">
+      <div id="peach-dancer" class="float-peach" style="width:min(1102px, 52vw); position:relative;">
         <img
           src="brand_assets/Logo_Peach-removebg.png"
           alt="Peach mascot con auriculares y anteojos de sol"
@@ -668,14 +666,13 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- INTRO / ABOUT                                              -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section id="nosotros" style="background: var(--bg-base); padding:80px 28px 72px; transition: background 0.35s ease;">
-  <div style="max-width:760px; margin:0 auto; text-align:center;">
-    <span class="section-label">Quiénes somos</span>
-    <p style="font-size:1.15rem; font-weight:500; color:var(--text-body); line-height:1.82; margin-bottom:20px;">
+<section id="nosotros" style="background: var(--bg-base); padding:72px 28px 64px; transition: background 0.35s ease;">
+  <div style="max-width:680px; margin:0 auto; text-align:center;">
+    <p style="font-size:1.22rem; font-weight:600; color:var(--text-body); line-height:1.82; margin-bottom:22px;">
       En Peach Studio combinamos <strong style="color:var(--coral); font-weight:700;">estrategia de comunicación</strong> con <strong style="color:var(--coral); font-weight:700;">diseño de identidad</strong> para marcas que no quieren pasar desapercibidas.
     </p>
-    <p style="font-size:1.05rem; font-weight:400; color:var(--text-muted); line-height:1.82;">
-      No marketing del montón. No identidad genérica. Trabajamos con vos para que tu marca tenga algo que decir — y que lo diga bien.
+    <p style="font-size:1.05rem; font-weight:400; color:var(--text-muted); line-height:1.85;">
+      No marketing del montón. No identidad genérica. Trabajamos con vos para que tu marca tenga algo que decir&nbsp;— y que lo diga bien.
     </p>
   </div>
 </section>
@@ -1301,8 +1298,8 @@
 
     <!-- Left: logo + tagline -->
     <div>
-      <img src="brand_assets/Logo_Palabra_Peach_Blanco.png" alt="Peach Studio"
-           style="height:110px; width:auto; display:block; object-fit:contain;"
+      <img src="brand_assets/Logo_Peach_Naranja.png" alt="Peach Studio"
+           style="height:90px; width:auto; display:block; object-fit:contain;"
            onerror="this.outerHTML='<span style=\'font-family:Montserrat,sans-serif;font-weight:900;font-size:1.3rem;color:#fff;letter-spacing:-0.03em;\'>peach</span>';" />
       <p style="font-size:0.78rem; font-weight:400; color:rgba(255,255,255,0.36); margin-top:14px; line-height:1.60;">
         Estudio de comunicación creativa.<br/>Buenos Aires, Argentina.
