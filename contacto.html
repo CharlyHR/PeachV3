@@ -213,6 +213,12 @@
     @media (max-width: 720px) {
       .nav-links-hide { display: none !important; }
     }
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr !important; text-align: center; }
+      .footer-grid img { margin: 0 auto; }
+      .footer-grid nav { justify-content: center; flex-wrap: wrap; }
+      .footer-grid > div:last-child { justify-content: center !important; }
+    }
 
     /* ── Contact form styles ── */
     .contact-section {
