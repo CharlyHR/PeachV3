@@ -583,7 +583,7 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- HERO  V4: CSS grid — text LEFT ~56%, peach RIGHT ~44%     -->
 <!-- ══════════════════════════════════════════════════════════ -->
-<section class="hero-bg noise" style="position:relative; min-height:100vh; overflow:hidden; padding-top:96px;">
+<section class="hero-bg noise" style="position:relative; min-height:100vh; overflow:hidden;">
 
   <!-- Decorative radial glows -->
   <div style="position:absolute; inset:0; pointer-events:none; z-index:0;">
@@ -636,8 +636,10 @@
 
     <!-- RIGHT: Peach mascot -->
     <div class="hero-peach-col anim-scale-in delay-100"
-         style="display:flex; align-items:center; justify-content:center; padding:40px 0 80px; overflow:visible;">
-      <div id="peach-dancer" class="float-peach" style="width:min(1102px, 52vw); position:relative;">
+         style="display:flex; align-items:center; justify-content:center; position:relative; overflow:visible;">
+
+      <div id="peach-dancer" class="float-peach"
+           style="width:750px; position:absolute; right:-50px; z-index:10;">
         <img
           src="brand_assets/Logo_Peach-removebg.png"
           alt="Peach mascot con auriculares y anteojos de sol"
@@ -645,8 +647,8 @@
                  filter: drop-shadow(0 64px 96px rgba(0,0,0,0.28))
                          drop-shadow(0 20px 40px rgba(236,98,87,0.36));"
         />
-        <div style="position:absolute; bottom:4%; left:50%; transform:translateX(-40%); width:58%; height:28px;
-                    background:radial-gradient(ellipse, rgba(0,0,0,0.22) 0%, transparent 72%); border-radius:50%;"></div>
+        <div style="position:absolute; bottom:-5%; left:50%; transform:translateX(-50%); width:60%; height:40px;
+                    background:radial-gradient(ellipse, rgba(0,0,0,0.25) 0%, transparent 75%); border-radius:50%; z-index:-1;"></div>
       </div>
     </div>
 
@@ -881,7 +883,7 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <div id="logo-carousel-wrap" style="background: #111111; padding:36px 0; border-top:1px solid rgba(255,255,255,0.07); border-bottom:1px solid rgba(255,255,255,0.07); position:relative; overflow:hidden; cursor:grab;">
 
-  <p style="font-size:0.68rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.38); text-align:center; margin-bottom:20px;">Personas que confiaron en Peach</p>
+  <a href="clientes.html" style="display:block; font-size:0.68rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.38); text-align:center; margin-bottom:20px; text-decoration:none; transition:color 0.2s ease;" onmouseover="this.style.color='rgba(251,135,70,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.38)'">Personas que confiaron en Peach →</a>
 
   <!-- Arrow buttons (hidden until hover) -->
   <button id="carousel-prev" aria-label="Anterior" style="
@@ -949,40 +951,28 @@
 </style>
 
 <script>
-(function() {
+(async function() {
   /* ═══════════════════════════════════════════════════════
-     LOGOS: Agregá los logos de tus clientes acá.
-     Ponés los archivos en la carpeta /Logos_Clientes/
-     y agregás una entrada por cada uno:
-       { src: 'Logos_Clientes/nombre.png', alt: 'Empresa' }
+     LOGOS: Auto-detectados desde /Logos_Clientes/
+     Agregá cualquier archivo nuevo como N.png (siguiente número)
+     y se mostrará automáticamente en el carousel y en /clientes.html
      ═══════════════════════════════════════════════════════ */
-  var CLIENTES = [
-    { src: 'Logos_Clientes/1.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/2.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/3.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/5.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/6.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/7.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/8.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/9.png',              alt: 'Cliente' },
-    { src: 'Logos_Clientes/10.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/11.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/12.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/14.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/16.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/17.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/18.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/20.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/21.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/22.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/23.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/24.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/25.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/26.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/27.png',             alt: 'Cliente' },
-    { src: 'Logos_Clientes/28.png', alt: 'Deleite' },
-    { src: 'Logos_Clientes/29.png', alt: 'Cliente' },
-  ];
+  async function discoverLogos() {
+    var probes = [];
+    for (var i = 1; i <= 200; i++) {
+      probes.push(
+        (function(n) {
+          return fetch('Logos_Clientes/' + n + '.png', { method: 'HEAD' })
+            .then(function(r) { return r.ok ? { n: n, src: 'Logos_Clientes/' + n + '.png', alt: 'Cliente' } : null; })
+            .catch(function() { return null; });
+        })(i)
+      );
+    }
+    var results = await Promise.all(probes);
+    return results.filter(Boolean).sort(function(a, b) { return a.n - b.n; });
+  }
+
+  var CLIENTES = await discoverLogos();
 
   var wrap  = document.getElementById('logo-carousel-wrap');
   var track = document.getElementById('logo-track');
