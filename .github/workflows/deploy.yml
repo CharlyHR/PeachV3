@@ -23,7 +23,14 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
+            .claude/**
+            temporary screenshots/**
             CLAUDE.md
+            claude.md
             serve.mjs
             screenshot.mjs
-            temporary screenshots/**
+            package.json
+            package-lock.json
+            .env.example
+            .env
+            README.md
