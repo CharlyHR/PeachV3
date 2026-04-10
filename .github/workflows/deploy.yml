@@ -1,4 +1,4 @@
-name: Deploy a Hostinger
+name: Deploy to Hostinger
 
 on:
   push:
@@ -6,31 +6,32 @@ on:
       - main
 
 jobs:
-  deploy:
+  web-deploy:
+    name: Sync Files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - name: Get latest code
+      uses: actions/checkout@v3
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: ./
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            .claude/**
-            temporary screenshots/**
-            CLAUDE.md
-            claude.md
-            serve.mjs
-            screenshot.mjs
-            package.json
-            package-lock.json
-            .env.example
-            .env
-            README.mdcls
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./
+        server-dir: public_html/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          .claude/**
+          temporary screenshots/**
+          CLAUDE.md
+          claude.md
+          serve.mjs
+          screenshot.mjs
+          package.json
+          package-lock.json
+          .env.example
+          .env
