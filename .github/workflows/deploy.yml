@@ -19,6 +19,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: /home/u491583258/domains/somospeach.com/public_html/
+          force-upload: true
           exclude: |
             **/.git*
             **/.git*/**
@@ -33,4 +34,4 @@ jobs:
             package-lock.json
             .env.example
             .env
-            README.md
+            README.mdcls
