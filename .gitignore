@@ -1,7 +1,21 @@
+# Dependencias
 node_modules/
-temporary screenshots/
 
-# Environment variables — NEVER commit these
+# Archivos de trabajo local
+temporary screenshots/
+serve.mjs
+screenshot.mjs
+
+# Claude Code — instrucciones internas
+.claude/
+claude.md
+CLAUDE.md
+
+# Variables de entorno — NUNCA commitear
 .env
 .env.local
 .env.*.local
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
